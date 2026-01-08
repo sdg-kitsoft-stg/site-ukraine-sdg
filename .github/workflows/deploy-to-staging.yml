@@ -2,10 +2,7 @@ name: Deploy to staging
 
 on:
   push:
-    branches:
-      - main
-  repository_dispatch:
-    types: rebuild-staging
+    branches: [ main ]
 
 permissions:
   contents: write
@@ -13,61 +10,90 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
-    environment: staging
+
+    env:
+      JEKYLL_ENV: staging
 
     steps:
-      - name: Checkout site
-        uses: actions/checkout@v4
+    # -----------------------------
+    # Checkout repositories
+    # -----------------------------
+    - name: Checkout site
+      uses: actions/checkout@v4
+      with:
+        path: site
 
-      - name: Checkout data
-        uses: actions/checkout@v4
-        with:
-          repository: sdg-kitsoft-stg/data-ukraine-sdg
-          path: data
+    - name: Checkout data
+      uses: actions/checkout@v4
+      with:
+        repository: sdg-kitsoft-stg/data-ukraine-sdg
+        path: data
 
-      - name: Checkout translations
-        uses: actions/checkout@v4
-        with:
-          repository: sdg-kitsoft-stg/sdg-translations
-          path: translations
+    - name: Checkout translations
+      uses: actions/checkout@v4
+      with:
+        repository: sdg-kitsoft-stg/sdg-translations
+        path: translations
 
-      - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: '2.6'
-          bundler-cache: true
+    # -----------------------------
+    # Wire OpenSDG inputs
+    # -----------------------------
+    - name: Link OpenSDG inputs
+      run: |
+        ln -s ../data/data site/data
+        ln -s ../data/meta site/meta
+        ln -s ../data/indicator-config site/indicator-config
+        ln -s ../translations/translations site/translations
 
-      - name: Debug config values
-        run: |
-          echo "JEKYLL_ENV=$JEKYLL_ENV"
-          bundle exec ruby -e 'require "yaml"; puts YAML.load_file("_config_staging.yml")'
-      - name: Inspect OpenSDG inputs
-        run: |
-          echo "=== ROOT ==="
-          ls -la
+    # -----------------------------
+    # Ruby setup
+    # -----------------------------
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: '2.6'
+        bundler-cache: true
+        working-directory: site
 
-          echo "=== DATA ==="
-          ls -la data || echo "NO data dir"
+    # -----------------------------
+    # Debug (optional but useful)
+    # -----------------------------
+    - name: Debug config values
+      run: |
+        cd site
+        bundle exec ruby -e 'require "yaml"; puts YAML.load_file("_config.yml").slice("url","baseurl","environment")'
+        bundle exec ruby -e 'require "yaml"; puts YAML.load_file("_config_staging.yml").slice("url","baseurl","environment")'
 
-          echo "=== TRANSLATIONS ==="
-          ls -la translations || echo "NO translations dir"
+    # -----------------------------
+    # Build indicators (CRITICAL)
+    # -----------------------------
+    - name: Build indicators
+      run: |
+        cd site
+        bundle exec rake build:indicators
+        ls -la indicators | head -n 20
 
-          echo "=== INDICATORS ==="
-          ls -la indicators || echo "NO indicators dir"
+    # -----------------------------
+    # Build Jekyll site
+    # -----------------------------
+    - name: Build site (staging)
+      run: |
+        cd site
+        bundle exec jekyll build \
+          --config _config.yml,_config_staging.yml
 
-      - name: Build site (staging)
-        env:
-          JEKYLL_ENV: staging
-        run: |
-          bundle exec jekyll build \
-            --config _config.yml,_config_staging.yml
+    # -----------------------------
+    # Add CNAME
+    # -----------------------------
+    - name: Add CNAME
+      run: echo "sdg-stg.kitsoft.ua" > site/_site/CNAME
 
-      - name: Add CNAME
-        run: echo "sdg-stg.kitsoft.ua" > _site/CNAME
-
-      - name: Deploy to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@v4
-        with:
-          branch: gh-pages
-          folder: _site
-          clean: true
+    # -----------------------------
+    # Deploy to GitHub Pages
+    # -----------------------------
+    - name: Deploy to GitHub Pages
+      uses: JamesIves/github-pages-deploy-action@v4
+      with:
+        branch: gh-pages
+        folder: site/_site
+        clean: true

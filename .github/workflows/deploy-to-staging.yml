@@ -69,9 +69,12 @@ jobs:
     # -----------------------------
     - name: Build indicators
       run: |
-        cd data
-        bundle exec rake build:indicators
-        ls -la indicators | head -n 20
+        cd site
+        bundle exec rake -f ../data/Rakefile build:indicators
+
+    - name: Inspect indicators
+      run: |
+        ls -la data/indicators | head -n 20
 
     # -----------------------------
     # Build Jekyll site

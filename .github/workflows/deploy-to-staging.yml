@@ -37,10 +37,11 @@ jobs:
           ruby-version: '2.6'
           bundler-cache: true
 
-      - name: Print effective config
+      - name: Debug config values
         run: |
-          bundle exec jekyll config \
-            --config _config.yml,_config_staging.yml
+          echo "JEKYLL_ENV=$JEKYLL_ENV"
+          bundle exec ruby -e 'require "yaml"; puts YAML.load_file("_config_staging.yml")'
+
 
       - name: Build site (staging)
         env:

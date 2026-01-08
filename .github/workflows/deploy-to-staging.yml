@@ -44,10 +44,12 @@ jobs:
           bundle exec jekyll build \
             --config _config.yml,_config_staging.yml
 
+      - name: Add CNAME
+        run: echo "sdg-stg.kitsoft.ua" > _site/CNAME
+
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           branch: gh-pages
           folder: _site
           clean: true
-          cname: sdg-stg.kitsoft.ua

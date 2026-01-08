@@ -41,7 +41,19 @@ jobs:
         run: |
           echo "JEKYLL_ENV=$JEKYLL_ENV"
           bundle exec ruby -e 'require "yaml"; puts YAML.load_file("_config_staging.yml")'
+      - name: Inspect OpenSDG inputs
+        run: |
+          echo "=== ROOT ==="
+          ls -la
 
+          echo "=== DATA ==="
+          ls -la data || echo "NO data dir"
+
+          echo "=== TRANSLATIONS ==="
+          ls -la translations || echo "NO translations dir"
+
+          echo "=== INDICATORS ==="
+          ls -la indicators || echo "NO indicators dir"
 
       - name: Build site (staging)
         env:

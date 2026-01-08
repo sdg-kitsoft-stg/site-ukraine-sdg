@@ -50,3 +50,4 @@ jobs:
           branch: gh-pages
           folder: _site
           clean: true
+          cname: sdg-stg.kitsoft.ua

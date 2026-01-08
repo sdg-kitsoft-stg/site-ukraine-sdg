@@ -69,7 +69,7 @@ jobs:
     # -----------------------------
     - name: Build indicators
       run: |
-        cd site
+        cd data
         bundle exec rake build:indicators
         ls -la indicators | head -n 20
 

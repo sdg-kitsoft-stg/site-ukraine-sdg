@@ -70,6 +70,7 @@ jobs:
     - name: Build indicators
       run: |
         cd site
+        ls -la ../data
         bundle exec rake -f ../data/Rakefile build:indicators
 
     - name: Inspect indicators

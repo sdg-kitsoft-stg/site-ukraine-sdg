@@ -1,6 +1,0 @@
-﻿environment: staging
-
-languages:
-  - key: uk
-    name: Українська
-    default: true

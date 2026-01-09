@@ -1,7 +1,6 @@
 ---
 layout: default
+title: Home
 ---
 
-# Ukraine SDG — STAGING
-
-Temporary empty site. Build test only.
+Staging works.

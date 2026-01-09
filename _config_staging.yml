@@ -6,7 +6,5 @@ environment: staging
 #remote_data_prefix: https://sdg-kitsoft-stg.github.io/data-ukraine-sdg
 
 
-remote_data_prefix: ""
-
-analytics:
-  ga_prod: ""
+languages:
+  - en

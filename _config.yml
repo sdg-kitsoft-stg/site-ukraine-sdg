@@ -1,9 +1,14 @@
-title: SDG Ukraine (STG)
+#title: SDG Ukraine (STG)
 
-remote_theme: open-sdg/open-sdg
+#remote_theme: open-sdg/open-sdg
 
+#plugins:
+#  - jekyll-remote-theme
+#  - jekyll-open-sdg-plugins
+
+#markdown: kramdown
+
+
+theme: open-sdg/open-sdg
 plugins:
-  - jekyll-remote-theme
   - jekyll-open-sdg-plugins
-
-markdown: kramdown

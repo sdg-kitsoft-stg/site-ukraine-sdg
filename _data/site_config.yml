@@ -1,2 +1,6 @@
 ﻿environment: staging
 site_title: SDG Ukraine (Staging)
+languages:
+  - key: uk
+    name: Українська
+    default: true

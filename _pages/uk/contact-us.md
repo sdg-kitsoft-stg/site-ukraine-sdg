@@ -1,8 +1,7 @@
 ---
 layout: page
-title: Contact us
+title: Зв'яжіться з нами
 permalink: /uk/contact-us/
 language: uk
 ---
-
-Translation needed.
+Якщо у вас є питання щодо контенту цього сайту або джерел даних, будь ласка, [зв’яжіться з нами](https://stat.gov.ua/uk/contact-us)

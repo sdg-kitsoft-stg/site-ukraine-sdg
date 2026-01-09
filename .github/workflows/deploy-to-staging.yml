@@ -15,8 +15,9 @@ jobs:
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.2'
+          ruby-version: '3.1'
           bundler-cache: true
+
 
       - name: Build site (staging)
         run: |
@@ -24,6 +25,7 @@ jobs:
           bundle exec jekyll build \
             --config _config.yml,_config_staging.yml \
             --trace
+
 
       - name: Add CNAME
         run: echo "sdg-stg.kitsoft.ua" > _site/CNAME

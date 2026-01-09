@@ -1,0 +1,7 @@
+environment: staging
+
+# Використовуємо ЛОКАЛЬНІ data submodule
+remote_data_prefix: ""
+
+analytics:
+  ga_prod: ""

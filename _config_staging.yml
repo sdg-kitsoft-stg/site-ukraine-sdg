@@ -1,3 +1,9 @@
 url: https://sdg-stg.kitsoft.ua
 baseurl: ""
+
 environment: staging
+
+remote_theme: open-sdg/open-sdg@latest
+
+plugins:
+  - jekyll-remote-theme

@@ -4,7 +4,7 @@
 remote_theme: open-sdg/open-sdg@2.0.0
 
 # Replace this title as needed.
-title: general.site_title
+title: SDG Ukraine
 url: ""
 environment: staging
 
@@ -37,3 +37,4 @@ exclude:
   - README.md
   - LICENSE
 
+markdown: kramdown

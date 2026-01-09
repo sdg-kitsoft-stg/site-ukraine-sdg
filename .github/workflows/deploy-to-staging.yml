@@ -1,103 +1,35 @@
-name: Deploy to staging
+name: Deploy STAGING (OpenSDG)
 
 on:
   push:
     branches: [ main ]
 
-permissions:
-  contents: write
-
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
-    env:
-      JEKYLL_ENV: staging
-
     steps:
-    # -----------------------------
-    # Checkout repositories
-    # -----------------------------
-    - name: Checkout site
-      uses: actions/checkout@v4
-      with:
-        path: site
+      - name: Checkout site repo
+        uses: actions/checkout@v4
 
-    - name: Checkout data
-      uses: actions/checkout@v4
-      with:
-        repository: sdg-kitsoft-stg/data-ukraine-sdg
-        path: data
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2'
+          bundler-cache: true
 
-    - name: Checkout translations
-      uses: actions/checkout@v4
-      with:
-        repository: sdg-kitsoft-stg/sdg-translations
-        path: translations
+      - name: Build site (staging)
+        run: |
+          bundle install
+          bundle exec jekyll build \
+            --config _config.yml,_config_staging.yml \
+            --trace
 
-    # -----------------------------
-    # Wire OpenSDG inputs
-    # -----------------------------
-    - name: Link OpenSDG inputs
-      run: |
-        ln -s ../data/data site/data
-        ln -s ../data/meta site/meta
-        ln -s ../data/indicator-config site/indicator-config
-        ln -s ../translations/translations site/translations
+      - name: Add CNAME
+        run: echo "sdg-stg.kitsoft.ua" > _site/CNAME
 
-    # -----------------------------
-    # Ruby setup
-    # -----------------------------
-    - name: Set up Ruby
-      uses: ruby/setup-ruby@v1
-      with:
-        ruby-version: '2.6'
-        bundler-cache: true
-        working-directory: site
-
-    # -----------------------------
-    # Debug (optional but useful)
-    # -----------------------------
-    - name: Debug config values
-      run: |
-        cd site
-        bundle exec ruby -e 'require "yaml"; puts YAML.load_file("_config.yml").slice("url","baseurl","environment")'
-        bundle exec ruby -e 'require "yaml"; puts YAML.load_file("_config_staging.yml").slice("url","baseurl","environment")'
-
-    # -----------------------------
-    # Build indicators (CRITICAL)
-    # -----------------------------
-    - name: Build indicators
-      run: |
-        cd data
-        python3 -m pip install -r scripts/requirements.txt
-        python3 scripts/build_data.py
-
-    - name: Inspect indicators
-      run: |
-        ls -la data/indicators | head -n 20
-
-    # -----------------------------
-    # Build Jekyll site
-    # -----------------------------
-    - name: Build site (staging)
-      run: |
-        cd site
-        bundle exec jekyll build \
-          --config _config.yml,_config_staging.yml
-
-    # -----------------------------
-    # Add CNAME
-    # -----------------------------
-    - name: Add CNAME
-      run: echo "sdg-stg.kitsoft.ua" > site/_site/CNAME
-
-    # -----------------------------
-    # Deploy to GitHub Pages
-    # -----------------------------
-    - name: Deploy to GitHub Pages
-      uses: JamesIves/github-pages-deploy-action@v4
-      with:
-        branch: gh-pages
-        folder: site/_site
-        clean: true
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages
+          folder: _site

@@ -141,9 +141,10 @@ indicator_tabs:
   tab_2: ''
   tab_3: ''
   tab_4: ''
-languages:
-  - en
-  - es
+languages: []
+  #- en
+  #- es
+  #- uk
 languages_numbers: []
 languages_public: []
 logos: []

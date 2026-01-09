@@ -1,18 +1,9 @@
-name: Deploy to staging
+name: Test PRs
 
-on:
-  push:
-    branches:
-      - develop
-  workflow_dispatch:
-  #schedule:
-  #  - cron: '10 0 * * *'
-
-permissions:
-  contents: write
+on: [pull_request]
 
 jobs:
-  build:
+  test:
 
     runs-on: ubuntu-latest
 
@@ -32,10 +23,5 @@ jobs:
         bundle config path vendor/bundle
         bundle install
         bundle exec jekyll build --baseurl=/${{ env.GITHUB_REPOSITORY_NAME_PART }}
-    - name: Deploy to GitHub Pages
-      uses: JamesIves/github-pages-deploy-action@3.7.1
-      with:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        BRANCH: gh-pages
-        FOLDER: _site
-        CLEAN: true
+    - name: Test the HTML
+      run: bash scripts/test/html_proofer_staging.sh

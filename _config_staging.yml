@@ -1,8 +1,6 @@
 environment: staging
+
 url: https://sdg-stg.kitsoft.ua
 baseurl: ""
 
-remote_data_prefix: https://raw.githubusercontent.com/ORG/data-ukraine-sdg/main
-
-analytics:
-  ga_staging: ""
+remote_data_prefix: https://sdg-kitsoft-stg.github.io/data-ukraine-sdg

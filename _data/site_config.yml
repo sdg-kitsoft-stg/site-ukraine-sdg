@@ -1,6 +1,2 @@
 ﻿environment: staging
-
-remote_data_prefix: https://sdg-stg.kitsoft.ua/data
-
-analytics:
-  ga_prod: ''
+site_title: SDG Ukraine (Staging)

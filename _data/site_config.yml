@@ -1,6 +1,8 @@
 ﻿environment: staging
-site_title: SDG Ukraine (Staging)
+
 languages:
   - key: uk
     name: Українська
     default: true
+
+remote_data_prefix: "https://raw.githubusercontent.com/kitsoft-ua/data-ukraine-sdg/main"

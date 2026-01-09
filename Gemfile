@@ -1,5 +1,10 @@
 source "https://rubygems.org"
 
-gem "jekyll", "~> 3.9"
-gem "jekyll-open-sdg-plugins", "~> 2.0"
-gem "jekyll-remote-theme"
+ruby ">= 2.7"
+
+gem "jekyll", "~> 3.10"
+gem "jekyll-open-sdg-plugins", "~> 2.4"
+
+group :jekyll_plugins do
+  gem "jekyll-remote-theme"
+end

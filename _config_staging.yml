@@ -5,8 +5,8 @@ environment: staging
 
 #remote_data_prefix: https://sdg-kitsoft-stg.github.io/data-ukraine-sdg
 
-baseurl: ""
-url: ""
 
-open_sdg:
-  remote_data: false
+languages:
+  - uk
+
+remote_data_prefix: null

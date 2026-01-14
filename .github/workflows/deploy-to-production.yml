@@ -29,9 +29,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+<<<<<<< HEAD
     - uses: actions/checkout@v2
       with:
         persist-credentials: false
+=======
+    - uses: actions/checkout@v1
+>>>>>>> f0306b4 (SDG-18)
     - name: Set up Ruby 3.2
       uses: ruby/setup-ruby@v1
       with:

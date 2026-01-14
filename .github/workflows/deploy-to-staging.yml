@@ -3,20 +3,26 @@ name: Deploy to staging
 on:
   push:
     branches:
+<<<<<<< HEAD
       - main
   workflow_dispatch:
   #schedule:
   #  - cron: '10 0 * * *'
+=======
+      - develop
+  repository_dispatch:
+    types: rebuild-staging
+>>>>>>> f0306b4 (SDG-18)
 
 permissions:
   contents: write
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
+<<<<<<< HEAD
     - uses: actions/checkout@v1
     - name: Set up Ruby 3.2
       uses: ruby/setup-ruby@v1
@@ -39,3 +45,30 @@ jobs:
         BRANCH: gh-pages
         FOLDER: _site
         CLEAN: true
+=======
+      - uses: actions/checkout@v4
+
+      - name: Set up Ruby 3.2
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2.2'
+          bundler-cache: true
+
+      - name: Inject slug/short variables
+        uses: rlespinasse/github-slug-action@v3.x
+
+      - name: Set the REPOSITORY_URL_SITE environment variable
+        run: echo "REPOSITORY_URL_SITE=https://github.com/$GITHUB_REPOSITORY" >> $GITHUB_ENV
+
+      - name: Build the site
+        run: |
+          JEKYLL_ENV=staging bundle exec jekyll build --baseurl=/${{ env.GITHUB_REPOSITORY_NAME_PART }}
+
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@3.7.1
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: gh-pages
+          FOLDER: _site
+          CLEAN: true
+>>>>>>> f0306b4 (SDG-18)

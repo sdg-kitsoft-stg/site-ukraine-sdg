@@ -1,9 +1,35 @@
-environment: staging
+﻿environment: staging
 # Replace my-github-org and open-sdg-data-starter as needed.
 remote_data_prefix: "https://sdg-kitsoft-stg.github.io/data-ukraine-sdg"
 analytics:
   # For production, you likely want to enter a Google Analytics code below.
   ga_prod: ''
+favicons: favicon.io
+footer_language_toggle: none
+footer_menu:
+  - path: /contact-us
+    translation_key: menu.contact_us
+  - path: 'https://x.com/Ukrstat'
+    translation_key: general.twitter
+  - path: 'https://www.facebook.com/Ukrstat/'
+    translation_key: general.facebook
+  - path: /about/cookies-and-privacy/
+    translation_key: menu.cookies
+frontpage_cards:
+  - title: frontpage.download_all
+    content: ''
+    include: components/download-all-data.html
+    button_label: ''
+    button_link: ''
+    rule_color: ''
+  - title: custom.statistics_Ukraine
+    content: ''
+    include: ''
+    button_label: link
+    button_link: 'http://www.ukrstat.gov.ua/'
+    rule_color: ''
+  - title: custom.sdg_ukrstat
+    content: |+
 
 languages:
   - en

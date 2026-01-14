@@ -5,7 +5,7 @@ remote_theme: sdg-kitsoft-stg/open-sdg@main
 
 # Replace this title as needed.
 title: general.site_title
-baseurl: "/site-ukraine-sdg"
+baseurl: ""
 url: "https://sdg-kitsoft-stg.github.io"
 environment: staging
 

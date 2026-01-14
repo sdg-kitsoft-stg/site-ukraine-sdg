@@ -4,6 +4,16 @@ remote_data_prefix: "https://sdg-kitsoft-stg.github.io/data-ukraine-sdg"
 analytics:
   # For production, you likely want to enter a Google Analytics code below.
   ga_prod: ''
+
+reporting_status:
+  field:
+    name: reporting_status
+    options:
+      complete: Complete
+      inprogress: In progress
+      notstarted: Not started
+      notapplicable: Not applicable
+
 favicons: favicon.io
 footer_language_toggle: none
 footer_menu:
@@ -33,5 +43,6 @@ frontpage_cards:
 
 languages:
   - en
+  - uk
 
 default_language: en

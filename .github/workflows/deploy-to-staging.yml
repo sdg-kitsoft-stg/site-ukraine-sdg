@@ -30,9 +30,7 @@ jobs:
 
       - name: Build the site
         run: |
-          JEKYLL_ENV=staging bundle exec jekyll build \
-          --baseurl=/${{ env.GITHUB_REPOSITORY_NAME_PART }} \
-          --verbose
+          JEKYLL_ENV=staging bundle exec jekyll build --baseurl=/${{ env.GITHUB_REPOSITORY_NAME_PART }}
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@3.7.1

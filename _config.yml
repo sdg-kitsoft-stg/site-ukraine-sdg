@@ -1,7 +1,7 @@
 # Jekyll configuration for Open SDG platform
 
 # Tell the Remote Theme plugin to use the Open SDG platform (Jekyll theme).
-remote_theme: "https://sdg-kitsoft-stg.github.io/open-sdg.git"
+remote_theme: kitsoftllc/open-sdg@2.4.0
 
 # Replace this title as needed.
 title: general.site_title

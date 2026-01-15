@@ -23,8 +23,8 @@ jobs:
 
       - name: Copy translations into _data/translations
         run: |
-          mkdir -p _data/translations
-          rm -rf _data/translations/*
+          mkdir -p translations
+          rm -rf translations/*
           cp -R _tmp_translations/translations/* translations/
       - name: Verify translations exist
         run: |

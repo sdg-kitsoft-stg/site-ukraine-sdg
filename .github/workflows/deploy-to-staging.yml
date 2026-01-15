@@ -16,6 +16,24 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Checkout translations repo
+        uses: actions/checkout@v4
+        with:
+          repository: sdg-kitsoft-stg/sdg-translations
+          ref: main
+          path: _tmp_translations
+          persist-credentials: false
+
+      - name: Copy translations into _data/translations
+        run: |
+          mkdir -p _data/translations
+          rm -rf _data/translations/*
+          cp -R _tmp_translations/translations/* _data/translations/
+      - name: Verify translations exist
+        run: |
+          test -f _data/translations/en/general.yml
+          echo "✅ translations copied"
+
       - name: Set up Ruby 3.2
         uses: ruby/setup-ruby@v1
         with:

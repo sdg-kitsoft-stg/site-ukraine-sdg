@@ -46,15 +46,17 @@ jobs:
       - name: Set the REPOSITORY_URL_SITE environment variable
         run: echo "REPOSITORY_URL_SITE=https://github.com/$GITHUB_REPOSITORY" >> $GITHUB_ENV
 
-      - name: Build the site
-        run: |
-          JEKYLL_ENV=staging bundle exec jekyll build
+      - name: List _site/translations
+        run: ls -la _site/translations || true
 
-      - name: List all files for debugging
-        run: ls -la
+      - name: List _site/useful-links
+        run: ls -la _site/useful-links || true
 
-      - name: list _site
-        run: ls -la _site | head -200
+      - name: Upload artifact for debugging
+        uses: actions/upload-artifact@v4
+        with:
+          name: built-site
+          path: _site
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@3.7.1

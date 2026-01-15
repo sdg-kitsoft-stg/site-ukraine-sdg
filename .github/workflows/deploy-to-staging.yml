@@ -53,6 +53,9 @@ jobs:
       - name: List all files for debugging
         run: ls -la
 
+      - name: list _site
+        run: ls -la _site | head -200
+
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@3.7.1
         with:

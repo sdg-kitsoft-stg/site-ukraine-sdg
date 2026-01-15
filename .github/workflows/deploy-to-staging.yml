@@ -24,14 +24,14 @@ jobs:
           path: _tmp_translations
           persist-credentials: false
 
-      - name: Copy translations into _data/translations
+      - name: Copy translations into translations
         run: |
           mkdir -p translations
           rm -rf translations/*
           cp -R _tmp_translations/translations/* translations/
       - name: Verify translations exist
         run: |
-          test -f _data/translations/en/general.yml
+          test -f translations/en/general.yml
           echo "✅ translations copied"
 
       - name: Set up Ruby 3.2

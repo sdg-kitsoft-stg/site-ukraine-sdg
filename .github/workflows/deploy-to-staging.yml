@@ -33,6 +33,12 @@ jobs:
         run: |
           test -f translations/en/general.yml
           echo "✅ translations copied 2"
+          
+      - name: Upload artifact for debugging
+        uses: actions/upload-artifact@v3
+        with:
+          name: built-site
+          path: _site
 
       - name: Set up Ruby 3.2
         uses: ruby/setup-ruby@v1

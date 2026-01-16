@@ -16,68 +16,52 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # Клонуємо репозиторій даних
       - name: Checkout data repository
         uses: actions/checkout@v4
         with:
           repository: sdg-kitsoft-stg/data-ukraine-sdg
-          path: data-test
+          path: data-repo
 
+      # Клонуємо репозиторій перекладів
       - name: Checkout translations repository
         uses: actions/checkout@v4
         with:
           repository: sdg-kitsoft-stg/sdg-translations
-          path: translation-test
+          path: translations-repo
 
-      - name: Checkout translations repo (to copy translations)
-        uses: actions/checkout@v4
-        with:
-          repository: sdg-kitsoft-stg/sdg-translations
-          ref: main
-          path: _tmp_translations
-          persist-credentials: false
+      # Копіюємо дані в репозиторій сайту
+      - name: Copy data into _data
+        run: |
+          mkdir -p _data
+          cp -R data-repo/* _data/
 
+      # Копіюємо переклади в репозиторій сайту
       - name: Copy translations into translations
         run: |
           mkdir -p translations
-          rm -rf translations/*
-          cp -R _tmp_translations/translations/* translations/
+          cp -R translations-repo/* translations/
 
-      - name: Verify translations exist
-        run: |
-          test -f translations/en/general.yml
-          echo "✅ translations copied 2"
-
+      # Встановлюємо Ruby і залежності
       - name: Set up Ruby 3.2
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: '3.2.2'
           bundler-cache: true
 
-      - name: Inject slug/short variables
-        uses: rlespinasse/github-slug-action@v3.x
-
-      - name: Set the REPOSITORY_URL_SITE environment variable
-        run: echo "REPOSITORY_URL_SITE=https://github.com/$GITHUB_REPOSITORY" >> $GITHUB_ENV
-
+      # Будуємо сайт
       - name: Build the site
         run: |
           JEKYLL_ENV=staging bundle exec jekyll build
 
-      - name: List _site/translations
-        run: ls -la _site/translations || true
-
-      - name: List _site/useful-links
-        run: ls -la _site/useful-links || true
-
+      # Завантажуємо артефакт для налагодження (необов'язково, але корисно)
       - name: Upload artifact for debugging
         uses: actions/upload-artifact@v4
         with:
           name: built-site
-          path: |
-            _site
-            data-test
-            translation-test
+          path: _site
 
+      # Деплой на GitHub Pages
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@3.7.1
         with:

@@ -34,13 +34,13 @@ jobs:
       - name: Copy data into data
         run: |
           mkdir -p data
-          cp -R data-repo/data data/
+          cp -R data-repo/data/* data/
 
       # Копіюємо переклади в репозиторій сайту
       - name: Copy translations into translations
         run: |
           mkdir -p translations
-          cp -R translations-repo/translations translations/
+          cp -R translations-repo/translations/* translations/
 
       # Встановлюємо Ruby і залежності
       - name: Set up Ruby 3.2

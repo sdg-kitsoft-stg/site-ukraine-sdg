@@ -1,7 +1,7 @@
 ---
 title: Поширені запитання (FAQ)
 language: uk
-permalink: /faq/
+permalink: /uk/faq/
 layout: page
 ---
 ## Зміст

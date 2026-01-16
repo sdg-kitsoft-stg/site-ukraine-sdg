@@ -31,16 +31,16 @@ jobs:
           path: translations-repo
 
       # Копіюємо дані в репозиторій сайту
-      - name: Copy data into _data
+      - name: Copy data into data
         run: |
-          mkdir -p _data
-          cp -R data-repo/* _data/
+          mkdir -p data
+          cp -R data-repo/data data/
 
       # Копіюємо переклади в репозиторій сайту
       - name: Copy translations into translations
         run: |
           mkdir -p translations
-          cp -R translations-repo/* translations/
+          cp -R translations-repo/translations translations/
 
       # Встановлюємо Ruby і залежності
       - name: Set up Ruby 3.2

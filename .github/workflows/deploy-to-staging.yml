@@ -56,6 +56,18 @@ jobs:
       - name: List _site/useful-links
         run: ls -la _site/useful-links || true
 
+      - name: Checkout data repository
+        uses: actions/checkout@v4
+        with:
+          repository: sdg-kitsoft-stg/data-ukraine-sdg
+          path: data-test
+
+      - name: Checkout translations repository
+        uses: actions/checkout@v4
+        with:
+          repository: sdg-kitsoft-stg/sdg-translations
+          path: translation-test
+
       - name: Upload artifact for debugging
         uses: actions/upload-artifact@v4
         with:

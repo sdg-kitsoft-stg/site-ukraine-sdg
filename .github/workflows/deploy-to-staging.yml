@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write      
+  contents: write
 
 jobs:
   build:
@@ -16,7 +16,19 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Checkout translations repo
+      - name: Checkout data repository
+        uses: actions/checkout@v4
+        with:
+          repository: sdg-kitsoft-stg/data-ukraine-sdg
+          path: data-test
+
+      - name: Checkout translations repository
+        uses: actions/checkout@v4
+        with:
+          repository: sdg-kitsoft-stg/sdg-translations
+          path: translation-test
+
+      - name: Checkout translations repo (to copy translations)
         uses: actions/checkout@v4
         with:
           repository: sdg-kitsoft-stg/sdg-translations
@@ -29,6 +41,7 @@ jobs:
           mkdir -p translations
           rm -rf translations/*
           cp -R _tmp_translations/translations/* translations/
+
       - name: Verify translations exist
         run: |
           test -f translations/en/general.yml
@@ -56,23 +69,14 @@ jobs:
       - name: List _site/useful-links
         run: ls -la _site/useful-links || true
 
-      - name: Checkout data repository
-        uses: actions/checkout@v4
-        with:
-          repository: sdg-kitsoft-stg/data-ukraine-sdg
-          path: data-test
-
-      - name: Checkout translations repository
-        uses: actions/checkout@v4
-        with:
-          repository: sdg-kitsoft-stg/sdg-translations
-          path: translation-test
-
       - name: Upload artifact for debugging
         uses: actions/upload-artifact@v4
         with:
           name: built-site
-          path: _site
+          path: |
+            _site
+            data-test
+            translation-test
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@3.7.1

@@ -14,54 +14,91 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # 1) Checkout site repo
       - uses: actions/checkout@v4
 
-      # Клонуємо репозиторій даних
+      # 2) Checkout data repo (для перевірки/майбутніх інтеграцій)
       - name: Checkout data repository
         uses: actions/checkout@v4
         with:
           repository: sdg-kitsoft-stg/data-ukraine-sdg
+          ref: main
           path: data-repo
+          persist-credentials: false
 
-      # Клонуємо репозиторій перекладів
+      # 3) Checkout translations repo
       - name: Checkout translations repository
         uses: actions/checkout@v4
         with:
           repository: sdg-kitsoft-stg/sdg-translations
+          ref: main
           path: translations-repo
+          persist-credentials: false
 
-      # Копіюємо дані в репозиторій сайту
-      - name: Copy data into data
+      # 4) Copy translations into _data/translations (це критично для Open SDG i18n)
+      - name: Copy translations into _data/translations
         run: |
-          mkdir -p data
-          cp -R data-repo/data/* data/
+          echo "Copying translations into _data/translations ..."
+          mkdir -p _data/translations
+          rm -rf _data/translations/*
+          cp -R translations-repo/translations/* _data/translations/
 
-      # Копіюємо переклади в репозиторій сайту
-      - name: Copy translations into translations
+          echo "✅ Example file:"
+          ls -la _data/translations/uk | head -50 || true
+          test -f _data/translations/uk/custom.yml
+
+      # 5) Exclude cloned repos from output site (щоб вони не попали у _site)
+      - name: Ensure exclude entries exist in _config.yml
         run: |
-          mkdir -p translations
-          cp -R translations-repo/translations/* translations/
+          echo "Ensuring exclude for data-repo/translations-repo exists..."
+          # If exclude section exists - append items if missing
+          if grep -q "^exclude:" _config.yml; then
+            grep -q "data-repo" _config.yml || echo "  - data-repo" >> _config.yml
+            grep -q "translations-repo" _config.yml || echo "  - translations-repo" >> _config.yml
+          else
+            echo "" >> _config.yml
+            echo "exclude:" >> _config.yml
+            echo "  - data-repo" >> _config.yml
+            echo "  - translations-repo" >> _config.yml
+          fi
 
-      # Встановлюємо Ruby і залежності
+          echo "---- _config.yml exclude section ----"
+          awk 'BEGIN{p=0} /^exclude:/{p=1} p==1{print}' _config.yml | head -60
+
+      # 6) Ruby + dependencies
       - name: Set up Ruby 3.2
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.2.2'
+          ruby-version: "3.2.2"
           bundler-cache: true
 
-      # Будуємо сайт
+      # 7) Build
       - name: Build the site
         run: |
           JEKYLL_ENV=staging bundle exec jekyll build
 
-      # Завантажуємо артефакт для налагодження (необов'язково, але корисно)
+      # 8) Verify translation applied (FAIL if key still present)
+      - name: Verify translations applied in rendered HTML
+        run: |
+          echo "Checking for unresolved translation keys in HTML..."
+          if grep -R "custom.statistics_Ukraine" -n _site/uk/index.html; then
+            echo "❌ Translation key still present in rendered HTML: custom.statistics_Ukraine"
+            exit 1
+          fi
+          echo "✅ custom.statistics_Ukraine resolved"
+
+          # optional: show the rendered text line
+          echo "Rendered line (search for statistics_Ukraine):"
+          grep -R "statistics_Ukraine" -n _site/uk/index.html | head -30 || true
+
+      # 9) Artifact for debugging
       - name: Upload artifact for debugging
         uses: actions/upload-artifact@v4
         with:
           name: built-site
           path: _site
 
-      # Деплой на GitHub Pages
+      # 10) Deploy
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@3.7.1
         with:

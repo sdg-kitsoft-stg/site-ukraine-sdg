@@ -53,9 +53,24 @@ jobs:
           ruby-version: "3.2.2"
           bundler-cache: true
 
+      - name: Debug translations structure before build
+        run: |
+          echo "=== List translations/uk ==="
+          ls -la translations/uk || true
+          echo "=== Show custom.yml ==="
+          cat translations/uk/custom.yml || true
+
       - name: Build the site
         run: |
           JEKYLL_ENV=staging bundle exec jekyll build
+
+      - name: Debug translations existence in output
+        run: |
+          echo "=== Is translations folder copied into _site? ==="
+          ls -la _site/translations/uk || true
+          echo "=== custom.yml in _site ==="
+          cat _site/translations/uk/custom.yml || true
+
 
       # ✅ Verification
       - name: Verify translations applied in rendered HTML

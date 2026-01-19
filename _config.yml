@@ -10,6 +10,8 @@ baseurl: "/site-ukraine-sdg"
 url: "https://sdg-kitsoft-stg.github.io"
 environment: staging
 
+data_dir: "./data"
+
 # Pages
 collections:
   pages:

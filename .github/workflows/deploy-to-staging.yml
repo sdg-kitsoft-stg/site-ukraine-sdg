@@ -42,7 +42,8 @@ jobs:
       - name: Copy built data to site
         run: |
           mkdir -p data
-          cp -R data-repo/_site/* /data/
+          rm -rf data/*
+          cp -R data-repo/_site/* data/
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1

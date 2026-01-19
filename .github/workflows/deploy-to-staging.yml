@@ -59,24 +59,12 @@ jobs:
           echo "=== search data-ukraine-sdg in built output ==="
           grep -R "data-ukraine-sdg" -n _site | head -200 || true
 
-      - name: Debug - search for sdg data requests in JS
+      - name: Debug - print translations
         run: |
-          echo "=== list built JS ==="
-          ls -la _site/assets/js | head -100 || true
-
-          echo "=== check for remote data prefix usage in JS ==="
-          grep -R "remote_data_prefix" -n _site/assets/js | head -100 || true
-          grep -R "headline" -n _site/assets/js | head -50 || true
-
-      - name: Debug - check injected variables in HTML
-        run: |
-          echo "=== check index.html for remote_data_prefix or data prefix ==="
-          grep -R "data-ukraine-sdg" -n _site/index.html _site/uk/index.html _site/en/index.html || true
-          grep -R "remote_data_prefix" -n _site/index.html _site/uk/index.html _site/en/index.html || true
-
-      - name: Debug - show resolved remote_data_prefix from Liquid
-        run: |
-          ruby -e 'require "yaml"; puts YAML.load_file("_data/site_config.yml")["remote_data_prefix"] rescue puts "cannot read site_config"'
+          echo "=== en/custom.yml ==="
+          cat translations/en/custom.yml || true
+          echo "=== uk/custom.yml ==="
+          cat translations/uk/custom.yml || true
 
       - name: Upload artifact - built _site
         uses: actions/upload-artifact@v4

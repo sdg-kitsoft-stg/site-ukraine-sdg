@@ -1,4 +1,4 @@
-name: Deploy to staging
+name: Deploy to staging with data build
 
 on:
   push:
@@ -14,79 +14,63 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout site repository
+        uses: actions/checkout@v4
 
+      # Checkout and build the data repository
+      - name: Checkout data repository
+        uses: actions/checkout@v4
+        with:
+          repository: sdg-kitsoft-stg/data-ukraine-sdg
+          path: data-repo
+
+      - name: Set up Ruby 3.2 for data repo
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.2.2"
+          bundler-cache: true
+          working-directory: data-repo
+
+      - name: Build data site
+        run: |
+          cd data-repo
+          bundle install
+          bundle exec jekyll build
+
+      # Copy the built data into the site repository
+      - name: Copy built data into site repository
+        run: |
+          rm -rf data
+          mkdir -p data
+          cp -R data-repo/_site/* data/
+
+      # Checkout translations repository
       - name: Checkout translations repository
         uses: actions/checkout@v4
         with:
           repository: sdg-kitsoft-stg/sdg-translations
-          ref: main
           path: translations-repo
-          persist-credentials: false
 
-      # ✅ Copy translations to BOTH locations:
-      # - translations/  (Open SDG standard)
-      # - _data/translations/ (Jekyll data fallback)
-      - name: Copy translations into translations/ AND _data/translations/
+      # Copy translations into site repository
+      - name: Copy translations into site repository
         run: |
-          echo "Copying translations..."
-
-          # 1) Open SDG standard path
           rm -rf translations
           mkdir -p translations
           cp -R translations-repo/translations/* translations/
 
-          # 2) Jekyll data fallback
-          rm -rf _data/translations
-          mkdir -p _data/translations
-          cp -R translations-repo/translations/* _data/translations/
-
-          echo "✅ Check custom.yml:"
-          echo "--- translations/uk/custom.yml ---"
-          cat translations/uk/custom.yml || true
-          echo "--- _data/translations/uk/custom.yml ---"
-          cat _data/translations/uk/custom.yml || true
-
-      - name: Set up Ruby 3.2
+      # Set up Ruby and build the site
+      - name: Set up Ruby 3.2 for site repo
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: "3.2.2"
           bundler-cache: true
 
-      - name: Debug translations structure before build
-        run: |
-          echo "=== List translations/uk ==="
-          ls -la translations/uk || true
-          echo "=== Show custom.yml ==="
-          cat translations/uk/custom.yml || true
-
       - name: Build the site
         run: |
+          bundle install
           JEKYLL_ENV=staging bundle exec jekyll build
 
-      - name: Debug translations existence in output
-        run: |
-          echo "=== Is translations folder copied into _site? ==="
-          ls -la _site/translations/uk || true
-          echo "=== custom.yml in _site ==="
-          cat _site/translations/uk/custom.yml || true
-
-
-      # ✅ Verification
-      - name: Verify translations applied in rendered HTML
-        run: |
-          echo "Checking for unresolved translation keys in HTML..."
-          if grep -R "custom.statistics_Ukraine" -n _site/uk/index.html; then
-            echo "❌ Translation key still present in rendered HTML: custom.statistics_Ukraine"
-          fi
-          echo "✅ custom.statistics_Ukraine resolved"
-
-      - name: Upload artifact for debugging
-        uses: actions/upload-artifact@v4
-        with:
-          name: built-site
-          path: _site
-
+      # Deploy the site to GitHub Pages
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@3.7.1
         with:

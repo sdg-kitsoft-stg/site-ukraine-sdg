@@ -1,4 +1,4 @@
-name: Deploy to staging with data build
+name: Deploy to staging
 
 on:
   push:
@@ -17,66 +17,47 @@ jobs:
       - name: Checkout site repository
         uses: actions/checkout@v4
 
-      # Checkout and build the data repository
       - name: Checkout data repository
         uses: actions/checkout@v4
         with:
           repository: sdg-kitsoft-stg/data-ukraine-sdg
           path: data-repo
 
-      - name: Set up Ruby 3.2 for data repo
-        uses: ruby/setup-ruby@v1
+      - name: Set up Python
+        uses: actions/setup-python@v4
         with:
-          ruby-version: "3.2.2"
-          bundler-cache: true
-          working-directory: data-repo
+          python-version: '3.10'
 
-      - name: Build data site
+      - name: Install Python dependencies
+        run: |
+          pip install pandas numpy pydantic frictionless packaging
+          pip install git+https://github.com/dougmet/yamlmd
+          pip install git+https://github.com/open-sdg/sdg-build@2.4.0
+
+      - name: Build data repository
         run: |
           cd data-repo
-          bundle install
-          bundle exec jekyll build
+          python scripts/build_data.py
 
-      # Copy the built data into the site repository
-      - name: Copy built data into site repository
+      - name: Copy built data to site
         run: |
-          rm -rf data
-          mkdir -p data
-          cp -R data-repo/_site/* data/
+          cp -R data-repo/_site/* ./data/
 
-      # Checkout translations repository
-      - name: Checkout translations repository
-        uses: actions/checkout@v4
-        with:
-          repository: sdg-kitsoft-stg/sdg-translations
-          path: translations-repo
-
-      # Copy translations into site repository
-      - name: Copy translations into site repository
-        run: |
-          rm -rf translations
-          mkdir -p translations
-          cp -R translations-repo/translations/* translations/
-
-      # Set up Ruby and build the site
-      - name: Set up Ruby 3.2 for site repo
+      - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: "3.2.2"
+          ruby-version: '3.2.2'
           bundler-cache: true
 
       - name: Build the site
-        run: |
-          bundle install
-          JEKYLL_ENV=staging bundle exec jekyll build
+        run: JEKYLL_ENV=staging bundle exec jekyll build
 
-      - name: Upload entire repository as artifact
+      - name: Upload artifact for debugging
         uses: actions/upload-artifact@v4
         with:
-          name: full-repo
-          path: ./
+          name: built-site
+          path: _site
 
-      # Deploy the site to GitHub Pages
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@3.7.1
         with:

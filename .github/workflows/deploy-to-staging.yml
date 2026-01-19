@@ -39,6 +39,11 @@ jobs:
           cd data-repo
           python scripts/build_data.py
 
+      - name: List final data folder for debug
+        run: |
+          echo "=== contents of _site/data ==="
+          ls -la data-repo/_site
+
       - name: Copy built data to site
         run: |
           mkdir -p data

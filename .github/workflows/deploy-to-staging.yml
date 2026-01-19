@@ -1,4 +1,4 @@
-name: Deploy to staging (site + build data)
+name: Deploy to staging
 
 on:
   push:
@@ -21,68 +21,44 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: sdg-kitsoft-stg/data-ukraine-sdg
-          ref: main
           path: data-repo
-          persist-credentials: false
 
-      # ---------- BUILD DATA REPO (Python) ----------
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v4
         with:
-          python-version: "3.11"
+          python-version: '3.10'
 
-      - name: Install python deps for data build
-        working-directory: data-repo
+      - name: Install Python dependencies
         run: |
-          python -m pip install --upgrade pip
-          pip install \
-            "git+https://github.com/dougmet/yamlmd" \
-            "git+https://github.com/open-sdg/sdg-build@2.4.0" \
-            "frictionless==4.40.8" \
-            "pydantic==1.*" \
-            "pandas==1.*" \
-            "numpy==1.*" \
-            "packaging>=23.0"
+          pip install pandas numpy pydantic frictionless packaging
+          pip install git+https://github.com/dougmet/yamlmd
+          pip install git+https://github.com/open-sdg/sdg-build@2.4.0
 
-      - name: Build data repository via scripts/build_data.py
-        working-directory: data-repo
+      - name: Build data repository
         run: |
-          echo "=== DATA BUILD START ==="
+          cd data-repo
           python scripts/build_data.py
-          echo "=== DATA BUILD OUTPUT ==="
-          ls -la _site | head -200
-          echo "=== Check languages folders ==="
-          ls -la _site/en | head -100 || true
-          ls -la _site/uk | head -100 || true
 
-      - name: Copy built data output into site/data
+      - name: Copy built data to site
         run: |
-          echo "Copying data build output..."
           mkdir -p data
-          rm -rf data/*
-          cp -R data-repo/_site/* data/
-          echo "✅ site/data:"
-          ls -la data | head -200
+          cp -R data-repo/_site/* /data/
 
-      # ---------- BUILD SITE REPO (Ruby/Jekyll) ----------
-      - name: Set up Ruby 3.2
+      - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: "3.2.2"
+          ruby-version: '3.2.2'
           bundler-cache: true
 
       - name: Build the site
-        run: |
-          JEKYLL_ENV=staging bundle exec jekyll build
+        run: JEKYLL_ENV=staging bundle exec jekyll build
 
-      # ---------- DEBUG ARTIFACT ----------
-      - name: Upload FULL workspace as artifact
+      - name: Upload artifact for debugging
         uses: actions/upload-artifact@v4
         with:
-          name: full-workspace-after-build
-          path: ./
+          name: built-site
+          path: _site
 
-      # ---------- DEPLOY ----------
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@3.7.1
         with:

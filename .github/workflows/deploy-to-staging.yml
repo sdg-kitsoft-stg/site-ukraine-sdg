@@ -14,7 +14,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout site repository
+        uses: actions/checkout@v4
 
       # -------------------------
       # 1) TRANSLATIONS
@@ -27,14 +28,75 @@ jobs:
           path: translations-repo
           persist-credentials: false
 
-      - name: Copy translations into translations/
+      - name: Copy translations into translations/ AND _data/translations/
         run: |
+          echo "Copying translations..."
+
+          # 1) Open SDG standard folder
           rm -rf translations
           mkdir -p translations
           cp -R translations-repo/translations/* translations/
 
+          # 2) Optional fallback for custom logic
+          rm -rf _data/translations
+          mkdir -p _data/translations
+          cp -R translations-repo/translations/* _data/translations/
+
       # -------------------------
-      # 2) RUBY + BUILD
+      # 2) DATA BUILD
+      # -------------------------
+      - name: Checkout data repository
+        uses: actions/checkout@v4
+        with:
+          repository: sdg-kitsoft-stg/data-ukraine-sdg
+          ref: main
+          path: data-repo
+          persist-credentials: false
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Python dependencies for data build
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r data-repo/scripts/requirements.txt
+
+      - name: Build data repository
+        run: |
+          cd data-repo
+          python scripts/build_data.py
+
+      - name: Copy built data into site root (en/ uk/ untranslated/)
+        run: |
+          echo "Copying built data into site root..."
+
+          # Очистка старих директорій даних (важливо!)
+          rm -rf en uk untranslated
+
+          # Копіюємо структуру з data build прямо в root
+          cp -R data-repo/_site/* ./
+
+          echo "=== root folders after copy ==="
+          ls -la | head -200
+
+      - name: Debug data structure
+        run: |
+          echo "=== root folders ==="
+          ls -la | head -200 || true
+
+          echo "=== uk/meta ==="
+          ls -la uk/meta | head -50 || true
+
+          echo "=== uk/headline ==="
+          ls -la uk/headline | head -30 || true
+
+          echo "=== en/meta ==="
+          ls -la en/meta | head -50 || true
+
+      # -------------------------
+      # 3) SITE BUILD
       # -------------------------
       - name: Set up Ruby 3.2
         uses: ruby/setup-ruby@v1
@@ -53,18 +115,25 @@ jobs:
           JEKYLL_ENV=staging bundle exec jekyll build --baseurl=/${{ env.GITHUB_REPOSITORY_NAME_PART }}
 
       # -------------------------
-      # 3) DEBUG
+      # 4) DEBUG OUTPUT
       # -------------------------
-      - name: Debug - verify remote data base url rendered
+      - name: Debug - verify remote_data_prefix injected
         run: |
           echo "=== site_config ==="
           cat _data/site_config.yml | sed -n '1,120p' || true
 
-          echo "=== remoteDataBaseUrl in output ==="
-          grep -R "remoteDataBaseUrl" -n _site/index.html _site/uk/index.html _site/en/index.html || true
+          echo "=== search data-ukraine-sdg in built output ==="
+          grep -R "data-ukraine-sdg" -n _site | head -200 || true
+
+      - name: Debug - print translations
+        run: |
+          echo "=== en/custom.yml ==="
+          cat translations/en/custom.yml || true
+          echo "=== uk/custom.yml ==="
+          cat translations/uk/custom.yml || true
 
       # -------------------------
-      # 4) ARTIFACT
+      # 5) ARTIFACT
       # -------------------------
       - name: Upload artifact - built _site
         uses: actions/upload-artifact@v4
@@ -73,7 +142,7 @@ jobs:
           path: _site
 
       # -------------------------
-      # 5) DEPLOY
+      # 6) DEPLOY
       # -------------------------
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@3.7.1

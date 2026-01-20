@@ -14,17 +14,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout site repository
+        uses: actions/checkout@v4
 
-      - name: Set up Ruby 3.2
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: '3.2.2'
-          bundler-cache: true
-
-      - name: Inject slug/short variables
-        uses: rlespinasse/github-slug-action@v3.x
-
+      # -------------------------
+      # 1) TRANSLATIONS
+      # -------------------------
       - name: Checkout translations repository
         uses: actions/checkout@v4
         with:
@@ -36,32 +31,72 @@ jobs:
       - name: Copy translations into translations/ AND _data/translations/
         run: |
           echo "Copying translations..."
-          
-          # 1) Open SDG standard
+
+          # 1) Open SDG standard folder
           rm -rf translations
           mkdir -p translations
           cp -R translations-repo/translations/* translations/
-          
-          # 2) Fallback for custom themes / older logic
+
+          # 2) Optional fallback for custom logic
           rm -rf _data/translations
           mkdir -p _data/translations
           cp -R translations-repo/translations/* _data/translations/
 
+      # -------------------------
+      # 2) DATA BUILD
+      # -------------------------
       - name: Checkout data repository
         uses: actions/checkout@v4
         with:
           repository: sdg-kitsoft-stg/data-ukraine-sdg
+          ref: main
           path: data-repo
+          persist-credentials: false
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Python dependencies for data build
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r data-repo/scripts/requirements.txt
 
       - name: Build data repository
         run: |
           cd data-repo
           python scripts/build_data.py
 
-      - name: Copy built data to site
+      - name: Copy built data into site/data
         run: |
-          mkdir -p _data/data
-          cp -R data-repo/_site/* _data/data/
+          echo "Copying built data into site/data ..."
+          rm -rf data
+          mkdir -p data
+          cp -R data-repo/_site/* data/
+
+      - name: Debug data structure
+        run: |
+          echo "=== site/data root ==="
+          ls -la data | head -100 || true
+
+          echo "=== site/data/uk ==="
+          ls -la data/uk | head -50 || true
+
+          echo "=== example headline file ==="
+          ls -la data/uk/headline | head -30 || true
+
+      # -------------------------
+      # 3) SITE BUILD
+      # -------------------------
+      - name: Set up Ruby 3.2
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.2.2"
+          bundler-cache: true
+
+      - name: Inject slug/short variables
+        uses: rlespinasse/github-slug-action@v3.x
 
       - name: Set the REPOSITORY_URL_SITE environment variable
         run: echo "REPOSITORY_URL_SITE=https://github.com/$GITHUB_REPOSITORY" >> $GITHUB_ENV
@@ -70,6 +105,9 @@ jobs:
         run: |
           JEKYLL_ENV=staging bundle exec jekyll build --baseurl=/${{ env.GITHUB_REPOSITORY_NAME_PART }}
 
+      # -------------------------
+      # 4) DEBUG OUTPUT
+      # -------------------------
       - name: Debug - verify remote_data_prefix injected
         run: |
           echo "=== site_config ==="
@@ -85,12 +123,18 @@ jobs:
           echo "=== uk/custom.yml ==="
           cat translations/uk/custom.yml || true
 
+      # -------------------------
+      # 5) ARTIFACT
+      # -------------------------
       - name: Upload artifact - built _site
         uses: actions/upload-artifact@v4
         with:
           name: built-site
           path: _site
 
+      # -------------------------
+      # 6) DEPLOY
+      # -------------------------
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@3.7.1
         with:

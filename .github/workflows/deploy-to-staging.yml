@@ -35,12 +35,10 @@ jobs:
         run: |
           echo "Copying translations..."
 
-          # Open SDG стандарт
           rm -rf translations
           mkdir -p translations
           cp -R translations-repo/translations/* translations/
 
-          # fallback (на всяк випадок)
           rm -rf _data/translations
           mkdir -p _data/translations
           cp -R translations-repo/translations/* _data/translations/
@@ -48,7 +46,7 @@ jobs:
       # -------------------------
       # 2) DEBUG REMOTE DATA ENDPOINTS
       # -------------------------
-      - name: Debug - test real indicator files in remote data
+      - name: Debug - test remote data endpoints
         run: |
           echo "=== Check indicator endpoints ==="
 
@@ -67,21 +65,21 @@ jobs:
             "https://sdg-kitsoft-stg.github.io/data-ukraine-sdg/uk/headline/8-5-3.csv"
 
       # -------------------------
-      # 3) GENERATE _indicators FROM meta/all.json
+      # 3) GENERATE _indicators FROM meta/all.json (FIXED ✅)
       # -------------------------
       - name: Set up Python 3.11 (for indicator generation)
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
 
-      - name: Generate _indicators from remote data meta/all.json
+      - name: Generate _indicators from remote meta/all.json (with indicator_index)
         run: |
           echo "Generating indicator pages..."
 
           rm -rf _indicators
           mkdir -p _indicators
 
-          # беремо meta/all.json з EN (бо root index = en)
+          # Беремо meta/all.json з EN (бо root index = EN)
           curl -L "https://sdg-kitsoft-stg.github.io/data-ukraine-sdg/en/meta/all.json" -o /tmp/all.json
 
           python - <<'PY'
@@ -91,7 +89,6 @@ jobs:
               data = json.load(f)
 
           indicators = []
-          # all.json може бути list або dict
           if isinstance(data, list):
               for item in data:
                   ind = item.get("indicator") or item.get("indicator_id") or item.get("id")
@@ -104,20 +101,24 @@ jobs:
 
           os.makedirs("_indicators", exist_ok=True)
 
-          for ind in indicators:
+          for idx, ind in enumerate(indicators):
               path = f"_indicators/{ind}.md"
               with open(path, "w", encoding="utf-8") as f:
                   f.write("---\n")
                   f.write(f"indicator_number: {ind}\n")
-                  f.write(f"permalink: /indicators/{ind}/\n")
+                  f.write(f"indicator_index: {idx}\n")
                   f.write("layout: indicator\n")
+                  f.write(f"permalink: /indicators/{ind}/\n")
                   f.write("---\n")
 
           print("Generated", len(indicators), "indicator pages")
           PY
 
           echo "=== indicators generated ==="
-          ls -la _indicators | head -80
+          ls -la _indicators | head -60
+
+          echo "=== sample indicator file ==="
+          sed -n '1,40p' _indicators/8-5-3.md || true
 
       # -------------------------
       # 4) RUBY + SITE BUILD
@@ -139,7 +140,7 @@ jobs:
           JEKYLL_ENV=staging bundle exec jekyll build --baseurl=/${{ env.GITHUB_REPOSITORY_NAME_PART }}
 
       # -------------------------
-      # 5) DEBUG OUTPUT
+      # 5) DEBUG
       # -------------------------
       - name: Debug - show site_config
         run: |
@@ -154,30 +155,11 @@ jobs:
           echo "=== remoteDataBaseUrl in uk index ==="
           grep -n "remoteDataBaseUrl" _site/uk/index.html || true
 
-      - name: Debug - verify translations copied
+      - name: Debug - ensure indicators generated in output
         run: |
-          echo "=== translations/en/custom.yml ==="
-          cat translations/en/custom.yml || true
-
-          echo "=== translations/uk/custom.yml ==="
-          cat translations/uk/custom.yml || true
-
-      - name: Debug - check indicator pages exist in _site
-        run: |
-          echo "=== check some indicator pages in output ==="
+          echo "=== indicators output ==="
           ls -la _site/indicators | head -80 || true
           find _site/indicators -maxdepth 2 -type f -name "index.html" | head -30 || true
-
-      - name: Debug - find remote data fetch logic in JS
-        run: |
-          echo "=== list JS files ==="
-          ls -la _site/assets/js | head -120 || true
-
-          echo "=== Find usage of remoteDataBaseUrl in JS ==="
-          grep -R "remoteDataBaseUrl" -n _site/assets/js | head -80 || true
-
-          echo "=== Find /data/ usage in JS ==="
-          grep -R "/data/" -n _site/assets/js | head -80 || true
 
       # -------------------------
       # 6) ARTIFACT

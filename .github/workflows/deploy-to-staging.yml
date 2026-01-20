@@ -65,21 +65,20 @@ jobs:
             "https://sdg-kitsoft-stg.github.io/data-ukraine-sdg/uk/headline/8-5-3.csv"
 
       # -------------------------
-      # 3) GENERATE _indicators FROM meta/all.json (FIXED ✅)
+      # 3) GENERATE _indicators FROM meta/all.json (CORRECT FOR 2.4.0 ✅)
       # -------------------------
       - name: Set up Python 3.11 (for indicator generation)
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
 
-      - name: Generate _indicators from remote meta/all.json (with indicator_index)
+      - name: Generate _indicators from remote meta/all.json (Open SDG 2.4.0 format)
         run: |
           echo "Generating indicator pages..."
 
           rm -rf _indicators
           mkdir -p _indicators
 
-          # Беремо meta/all.json з EN (бо root index = EN)
           curl -L "https://sdg-kitsoft-stg.github.io/data-ukraine-sdg/en/meta/all.json" -o /tmp/all.json
 
           python - <<'PY'
@@ -89,12 +88,15 @@ jobs:
               data = json.load(f)
 
           indicators = []
+
+          # all.json can be either list or dict
           if isinstance(data, list):
               for item in data:
                   ind = item.get("indicator") or item.get("indicator_id") or item.get("id")
                   if ind:
                       indicators.append(ind)
           elif isinstance(data, dict):
+              # sometimes: { "8-5-3": {...}, ... }
               indicators = list(data.keys())
 
           indicators = sorted(set(indicators))
@@ -105,8 +107,11 @@ jobs:
               path = f"_indicators/{ind}.md"
               with open(path, "w", encoding="utf-8") as f:
                   f.write("---\n")
+                  # IMPORTANT FOR OPEN SDG 2.4.0:
+                  # "indicator" must be numeric index (used internally)
+                  f.write(f"indicator: {idx}\n")
+                  # this is the human-readable indicator id:
                   f.write(f"indicator_number: {ind}\n")
-                  f.write(f"indicator_index: {idx}\n")
                   f.write("layout: indicator\n")
                   f.write(f"permalink: /indicators/{ind}/\n")
                   f.write("---\n")
@@ -118,7 +123,7 @@ jobs:
           ls -la _indicators | head -60
 
           echo "=== sample indicator file ==="
-          sed -n '1,40p' _indicators/8-5-3.md || true
+          sed -n '1,50p' _indicators/8-5-3.md || true
 
       # -------------------------
       # 4) RUBY + SITE BUILD

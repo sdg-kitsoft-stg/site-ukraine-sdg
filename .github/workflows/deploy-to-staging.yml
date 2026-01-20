@@ -41,6 +41,17 @@ jobs:
           rm -rf _data/translations
           mkdir -p _data/translations
           cp -R translations-repo/translations/* _data/translations/
+          
+      - name: Debug - test real indicator files in remote data
+        run: |
+          echo "=== Check indicator endpoints ==="
+          curl -s -o /dev/null -w "EN meta 8-5-3 status: %{http_code}\n" "https://sdg-kitsoft-stg.github.io/data-ukraine-sdg/en/meta/8-5-3.json"
+          curl -s -o /dev/null -w "EN data 8-5-3 status: %{http_code}\n" "https://sdg-kitsoft-stg.github.io/data-ukraine-sdg/en/data/8-5-3.csv"
+          curl -s -o /dev/null -w "EN headline 8-5-3 status: %{http_code}\n" "https://sdg-kitsoft-stg.github.io/data-ukraine-sdg/en/headline/8-5-3.csv"
+
+          curl -s -o /dev/null -w "UK meta 8-5-3 status: %{http_code}\n" "https://sdg-kitsoft-stg.github.io/data-ukraine-sdg/uk/meta/8-5-3.json"
+          curl -s -o /dev/null -w "UK data 8-5-3 status: %{http_code}\n" "https://sdg-kitsoft-stg.github.io/data-ukraine-sdg/uk/data/8-5-3.csv"
+          curl -s -o /dev/null -w "UK headline 8-5-3 status: %{http_code}\n" "https://sdg-kitsoft-stg.github.io/data-ukraine-sdg/uk/headline/8-5-3.csv"
 
       # -------------------------
       # 2) RUBY + BUILD

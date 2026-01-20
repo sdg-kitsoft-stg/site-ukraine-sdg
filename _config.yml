@@ -2,7 +2,7 @@
 
 # Tell the Remote Theme plugin to use the Open SDG platform (Jekyll theme).
 remote_theme: sdg-kitsoft-stg/open-sdg@main
-remote_data_prefix: ""
+remote_data_prefix: "https://sdg-kitsoft-stg.github.io/data-ukraine-sdg/"
 repository_url_data: "https://github.com/sdg-kitsoft-stg/data-ukraine-sdg"
 
 # Replace this title as needed.

@@ -68,23 +68,32 @@ jobs:
           cd data-repo
           python scripts/build_data.py
 
-      - name: Copy built data into site/data
+      - name: Copy built data into site root (en/ uk/ untranslated/)
         run: |
-          echo "Copying built data into site/data ..."
-          rm -rf data
-          mkdir -p data
-          cp -R data-repo/_site/* data/
+          echo "Copying built data into site root..."
+
+          # Очистка старих директорій даних (важливо!)
+          rm -rf en uk untranslated
+
+          # Копіюємо структуру з data build прямо в root
+          cp -R data-repo/_site/* ./
+
+          echo "=== root folders after copy ==="
+          ls -la | head -200
 
       - name: Debug data structure
         run: |
-          echo "=== site/data root ==="
-          ls -la data | head -100 || true
+          echo "=== root folders ==="
+          ls -la | head -200 || true
 
-          echo "=== site/data/uk ==="
-          ls -la data/uk | head -50 || true
+          echo "=== uk/meta ==="
+          ls -la uk/meta | head -50 || true
 
-          echo "=== example headline file ==="
-          ls -la data/uk/headline | head -30 || true
+          echo "=== uk/headline ==="
+          ls -la uk/headline | head -30 || true
+
+          echo "=== en/meta ==="
+          ls -la en/meta | head -50 || true
 
       # -------------------------
       # 3) SITE BUILD

@@ -89,6 +89,20 @@ jobs:
           curl -I "https://sdg-kitsoft-stg.github.io/data-ukraine-sdg/uk/headline/8-5-3.json" || true
           curl -I "https://sdg-kitsoft-stg.github.io/data-ukraine-sdg/en/meta/all.json" || true
 
+      - name: Debug - show remoteDataBaseUrl in index
+        run: |
+          echo "=== remoteDataBaseUrl in index.html ==="
+          sed -n '1,60p' _site/index.html
+          echo "=== remoteDataBaseUrl in uk/index.html ==="
+          sed -n '1,60p' _site/uk/index.html
+          echo "=== remoteDataBaseUrl in en/index.html ==="
+          sed -n '1,60p' _site/en/index.html
+
+      - name: Debug - find remoteDataBaseUrl usage in JS
+        run: |
+          echo "=== Find remoteDataBaseUrl in js ==="
+          grep -R "remoteDataBaseUrl" -n _site/assets/js | head -50 || true
+
       # -------------------------
       # 5) DEPLOY
       # -------------------------

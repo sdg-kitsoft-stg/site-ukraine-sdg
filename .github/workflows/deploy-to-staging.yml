@@ -14,6 +14,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # -------------------------
+      # 0) CHECKOUT
+      # -------------------------
       - name: Checkout site repository
         uses: actions/checkout@v4
 
@@ -28,7 +31,7 @@ jobs:
           path: translations-repo
           persist-credentials: false
 
-      - name: Copy translations into translations/
+      - name: Copy translations into translations/ (+ fallback _data/translations/)
         run: |
           rm -rf translations
           mkdir -p translations
@@ -59,20 +62,49 @@ jobs:
           JEKYLL_ENV=staging bundle exec jekyll build --baseurl=/${{ env.GITHUB_REPOSITORY_NAME_PART }}
 
       # -------------------------
-      # 3) DEBUG
+      # 3) DEBUG (IMPORTANT)
       # -------------------------
-      - name: Debug - verify remoteDataBaseUrl & translations
+      - name: Debug - show site_config
         run: |
           echo "=== site_config ==="
-          cat _data/site_config.yml | sed -n '1,140p' || true
+          cat _data/site_config.yml | sed -n '1,160p' || true
 
-          echo "=== remoteDataBaseUrl in output ==="
-          grep -R "remoteDataBaseUrl" -n _site/index.html _site/uk/index.html _site/en/index.html || true
+      - name: Debug - show remoteDataBaseUrl in built pages
+        run: |
+          echo "=== remoteDataBaseUrl in EN (root index.html) ==="
+          grep -n "remoteDataBaseUrl" _site/index.html || true
 
-          echo "=== en/custom.yml ==="
+          echo "=== remoteDataBaseUrl in UK ==="
+          grep -n "remoteDataBaseUrl" _site/uk/index.html || true
+
+      - name: Debug - verify translations copied
+        run: |
+          echo "=== translations/en/custom.yml ==="
           cat translations/en/custom.yml || true
-          echo "=== uk/custom.yml ==="
+
+          echo "=== translations/uk/custom.yml ==="
           cat translations/uk/custom.yml || true
+
+      - name: Debug - check remote data accessible from runner
+        run: |
+          echo "=== remote data HTTP status ==="
+          curl -s -o /dev/null -w "UK headline status: %{http_code}\n" "https://sdg-kitsoft-stg.github.io/data-ukraine-sdg/uk/headline/8-5-3.json"
+          curl -s -o /dev/null -w "UK meta/all.json status: %{http_code}\n" "https://sdg-kitsoft-stg.github.io/data-ukraine-sdg/uk/meta/all.json"
+          curl -s -o /dev/null -w "EN meta/all.json status: %{http_code}\n" "https://sdg-kitsoft-stg.github.io/data-ukraine-sdg/en/meta/all.json"
+
+      - name: Debug - find remote data fetch logic in JS
+        run: |
+          echo "=== list JS files ==="
+          ls -la _site/assets/js | head -120 || true
+
+          echo "=== Find usage of remoteDataBaseUrl in JS ==="
+          grep -R "remoteDataBaseUrl" -n _site/assets/js | head -80 || true
+
+          echo "=== Find usage of meta/all.json in JS ==="
+          grep -R "meta/all.json" -n _site/assets/js | head -80 || true
+
+          echo "=== Find usage of /headline/ in JS ==="
+          grep -R "headline" -n _site/assets/js | head -80 || true
 
       # -------------------------
       # 4) ARTIFACT
@@ -82,26 +114,6 @@ jobs:
         with:
           name: built-site
           path: _site
-
-      - name: Debug - check remote data accessible
-        run: |
-          echo "=== curl headline ==="
-          curl -I "https://sdg-kitsoft-stg.github.io/data-ukraine-sdg/uk/headline/8-5-3.json" || true
-          curl -I "https://sdg-kitsoft-stg.github.io/data-ukraine-sdg/en/meta/all.json" || true
-
-      - name: Debug - show remoteDataBaseUrl in index
-        run: |
-          echo "=== remoteDataBaseUrl in index.html ==="
-          sed -n '1,60p' _site/index.html
-          echo "=== remoteDataBaseUrl in uk/index.html ==="
-          sed -n '1,60p' _site/uk/index.html
-          echo "=== remoteDataBaseUrl in en/index.html ==="
-          sed -n '1,60p' _site/en/index.html
-
-      - name: Debug - find remoteDataBaseUrl usage in JS
-        run: |
-          echo "=== Find remoteDataBaseUrl in js ==="
-          grep -R "remoteDataBaseUrl" -n _site/assets/js | head -50 || true
 
       # -------------------------
       # 5) DEPLOY

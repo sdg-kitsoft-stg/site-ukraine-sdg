@@ -5,7 +5,6 @@ repository_url_data: "https://github.com/sdg-kitsoft-stg/data-ukraine-sdg"
 analytics:
   # For production, you likely want to enter a Google Analytics code below.
   ga_prod: ''
-
 reporting_status:
   field:
     name: reporting_status
@@ -14,7 +13,6 @@ reporting_status:
       inprogress: In progress
       notstarted: Not started
       notapplicable: Not applicable
-
 favicons: favicon.io
 footer_language_toggle: none
 footer_menu:
@@ -36,21 +34,18 @@ frontpage_cards:
   - title: custom.statistics_Ukraine
     content: ''
     include: ''
-    button_label: link
+    button_label: 'link'
     button_link: 'http://www.ukrstat.gov.ua/'
     rule_color: ''
   - title: custom.sdg_ukrstat
-    content: |+
-
+    content: ''
 create_pages: true
 create_goals:
   previous_next_links: true
 frontpage_goals_grid:
   title: custom.frontpage_goals_grid_title
   description: custom.frontpage_goals_grid_description
-
 languages:
   - en
   - uk
-
 default_language: uk

@@ -39,31 +39,14 @@ frontpage_cards:
     rule_color: ''
   - title: custom.sdg_ukrstat
     content: ''
-create_pages: true
+create_pages: false
 create_goals:
   previous_next_links: true
-  goals:
-    - goal: 1
-    - goal: 2
-    - goal: 3
-    - goal: 4
-    - goal: 5
-    - goal: 6
-    - goal: 7
-    - goal: 8
-    - goal: 9
-    - goal: 10
-    - goal: 11
-    - goal: 12
-    - goal: 13
-    - goal: 14
-    - goal: 15
-    - goal: 16
-    - goal: 17
 frontpage_goals_grid:
   title: custom.frontpage_goals_grid_title
   description: custom.frontpage_goals_grid_description
 languages:
   - en
   - uk
+  - es
 default_language: uk

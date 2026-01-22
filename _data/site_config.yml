@@ -65,6 +65,9 @@ goal_image_extension: svg
 create_indicators:
   layout: indicator
   previous_next_links: false
+frontpage_goals_grid:
+  title: general.goals
+  description: "goals test"
 languages:
   - en
   - uk

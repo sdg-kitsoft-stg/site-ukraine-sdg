@@ -1,6 +1,8 @@
 ---
 title: About
 language: en
+goal: none
+indicator: none
 permalink: /about/
 layout: page
 ---

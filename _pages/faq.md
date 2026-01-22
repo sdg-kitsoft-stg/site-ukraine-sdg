@@ -1,6 +1,8 @@
 ---
 title: Frequently Asked Questions (FAQ)
 language: en
+goal: none
+indicator: none
 permalink: /faq/
 layout: page
 ---

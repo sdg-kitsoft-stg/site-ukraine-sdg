@@ -2,6 +2,8 @@
 layout: news
 title: News & Events
 language: en
+goal: none
+indicator: none
 permalink: /news/
 ---
 

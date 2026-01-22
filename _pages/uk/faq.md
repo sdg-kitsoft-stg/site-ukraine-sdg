@@ -1,6 +1,8 @@
 ---
 title: Поширені запитання (FAQ)
 language: uk
+goal: none
+indicator: none
 permalink: /uk/faq/
 layout: page
 ---

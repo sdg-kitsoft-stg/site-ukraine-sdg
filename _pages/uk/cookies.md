@@ -2,6 +2,8 @@
 layout: page
 title: Файли cookie та конфіденційність
 language: uk
+goal: none
+indicator: none
 permalink: /uk/about/cookies-and-privacy/
 ---
 Нижче наведено опис того, які дані збираються під час використання цього вебсайту та для чого вони використовуються.

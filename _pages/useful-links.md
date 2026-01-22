@@ -1,6 +1,8 @@
 ---
 title: Useful links
 language: en
+goal: none
+indicator: none
 permalink: /useful-links/
 layout: page
 page_type: useful-links

@@ -1,6 +1,8 @@
 ---
 layout: categories
 language: en
+goal: none
+indicator: none
 permalink: /categories/
 title: Categories
 ---

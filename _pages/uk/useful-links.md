@@ -1,6 +1,8 @@
 ---
 title: Корисні посилання
 language: uk
+goal: none
+indicator: none
 permalink: /uk/useful-links/
 layout: page
 page_type: useful-links

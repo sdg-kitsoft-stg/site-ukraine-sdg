@@ -1,6 +1,8 @@
 ---
 title: Про нас
 language: uk
+goal: none
+indicator: none
 permalink: /uk/about/
 layout: page
 ---

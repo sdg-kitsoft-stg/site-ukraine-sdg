@@ -1,6 +1,8 @@
 ---
 layout: frontpage
 title: general.site_title
+goal: none
+indicator: none
 permalink: /
 ---
 

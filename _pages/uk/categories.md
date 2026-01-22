@@ -1,6 +1,8 @@
 ---
 layout: categories
 language: uk
+goal: none
+indicator: none
 permalink: /uk/categories/
 title: Категорії
 ---

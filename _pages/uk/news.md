@@ -2,6 +2,8 @@
 layout: news
 title: Новини та події
 language: uk
+goal: none
+indicator: none
 permalink: /uk/news/
 ---
 ## Новини та події

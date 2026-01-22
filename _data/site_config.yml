@@ -42,6 +42,7 @@ frontpage_cards:
 create_pages: true
 create_goals:
   previous_next_links: true
+  goals: []
 frontpage_goals_grid:
   title: custom.frontpage_goals_grid_title
   description: custom.frontpage_goals_grid_description

@@ -86,7 +86,7 @@ menu:
     dropdown: []
 frontpage_introduction_banner:
   title: frontpage.intro_title
-  description: custom.frontpage_intro_banner_body
+  description: frontpage.intro_body
 languages:
   - en
   - uk

@@ -29,16 +29,17 @@ frontpage_cards:
   - title: frontpage.download_all
     content: ''
     include: components/download-all-data.html
-    button_label: ''
+    button_label: frontpage.download_all_button_label
     button_link: ''
     rule_color: ''
   - title: custom.statistics_Ukraine
     content: ''
     include: ''
-    button_label: 'link'
+    button_label: custom.statistics_button_label
     button_link: 'http://www.ukrstat.gov.ua/'
     rule_color: ''
   - title: custom.sdg_ukrstat
+    button_label: custom.sdg_ukrstat_label
     content: ''
 create_goals:
   previous_next_links: false
@@ -60,6 +61,7 @@ create_goals:
     - goal: 15
     - goal: 16
     - goal: 17
+    - goal: 18
 goal_image_base: /site-ukraine-sdg/assets/img/goals
 goal_image_extension: svg
 create_indicators:

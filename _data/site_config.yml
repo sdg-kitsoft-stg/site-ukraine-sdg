@@ -81,12 +81,12 @@ menu:
   - path: /faq
     translation_key: menu.faq
     dropdown: []
-  - path: /news
-    translation_key: menu.updates
-    dropdown: []
   - path: /useful-links
     translation_key: menu.useful_links
     dropdown: []
+frontpage_introduction_banner:
+  title: frontpage.intro_title
+  description: custom.frontpage_intro_banner_body
 languages:
   - en
   - uk

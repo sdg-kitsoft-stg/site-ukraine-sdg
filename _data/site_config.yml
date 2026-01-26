@@ -68,6 +68,22 @@ create_indicators:
 frontpage_goals_grid:
   title: general.goals
   description: "goals test"
+menu:
+  - path: /goals
+    translation_key: general.goals
+    dropdown: []
+  - path: /reporting-status
+    translation_key: menu.reporting_status
+    dropdown: []
+  - path: /about
+    translation_key: menu.about
+    dropdown: []
+  - path: /faq
+    translation_key: menu.faq
+    dropdown: []
+  - path: /news
+    translation_key: menu.updates
+    dropdown: []
 languages:
   - en
   - uk

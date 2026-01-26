@@ -41,7 +41,7 @@ frontpage_cards:
   - title: custom.sdg_ukrstat
     content: ''
 create_goals:
-  previous_next_links: true
+  previous_next_links: false
   goals:
     - goal: 1
     - goal: 2
@@ -66,8 +66,8 @@ create_indicators:
   layout: indicator
   previous_next_links: false
 frontpage_goals_grid:
-  title: general.goals
-  description: "goals test"
+  title: frontpage.goals_title
+  description: frontpage.goals_description
 menu:
   - path: /goals
     translation_key: general.goals

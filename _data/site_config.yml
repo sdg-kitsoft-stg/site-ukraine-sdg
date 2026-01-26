@@ -35,12 +35,12 @@ frontpage_cards:
   - title: custom.statistics_Ukraine
     content: ''
     include: components/card.html
-    button_label: custom.statistics_button_label
+    button_label: custom.btn1
     button_link: 'http://www.ukrstat.gov.ua/'
     rule_color: ''
   - title: custom.sdg_ukrstat
     include: components/card.html
-    button_label: custom.sdg_ukrstat_label
+    button_label: custom.btn2
     content: ''
 create_goals:
   previous_next_links: false

@@ -84,6 +84,9 @@ menu:
   - path: /news
     translation_key: menu.updates
     dropdown: []
+  - path: /useful-links
+    translation_key: menu.useful_links
+    dropdown: []
 languages:
   - en
   - uk

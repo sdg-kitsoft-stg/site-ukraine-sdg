@@ -29,10 +29,13 @@ frontpage_cards:
   - title: frontpage.download_all
     include: components/download-all-data.html
   - title: custom.statistics_Ukraine
+    include: components/card.html
     button_label: custom.statistics_button_label
     button_link: 'http://www.ukrstat.gov.ua/'
   - title: custom.sdg_ukrstat
+    include: components/card.html
     button_label: custom.sdg_ukrstat_label
+    button_link: 'http://www.ukrstat.gov.ua/csr_prezent/ukr/st_rozv/metadata/metadata.htm'
 create_goals:
   previous_next_links: false
   goals:

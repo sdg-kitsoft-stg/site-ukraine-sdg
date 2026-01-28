@@ -1,8 +1,0 @@
-iframe:focus {
-    @include focus;
-}
-body.contrast-high {
-    iframe:focus {
-        @include focusHighContrast;
-    }
-}

@@ -86,7 +86,6 @@ menu:
 frontpage_introduction_banner:
   title: frontpage.intro_title
   description: frontpage.intro_body
-custom_css: []
 custom_js:
   - /assets/js/custom.js
 languages:

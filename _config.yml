@@ -46,3 +46,6 @@ metadata_mappings:
   goal_number: SDG_GOAL
 
 hide_empty_metadata: true
+prose:
+  enabled: false
+edit_url: ""

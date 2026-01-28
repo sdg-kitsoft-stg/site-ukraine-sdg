@@ -40,3 +40,7 @@ exclude:
   - README.md
   - LICENSE
 
+metadata_mappings:
+  target_name: SDG_TARGET
+  indicator_name: SDG_INDICATOR
+  goal_number: SDG_GOAL

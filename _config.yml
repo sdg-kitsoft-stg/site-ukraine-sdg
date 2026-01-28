@@ -41,3 +41,9 @@ exclude:
   - LICENSE
 
 hide_empty_metadata: true
+
+translations:
+  - class: TranslationInputFolder
+    source: translations
+  - class: TranslationInputRemote
+    repository: https://github.com/sdg-kitsoft-stg/sdg-translations.git

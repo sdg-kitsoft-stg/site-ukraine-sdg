@@ -7,13 +7,22 @@ analytics:
   # For production, you likely want to enter a Google Analytics code below.
   ga_prod: ''
 reporting_status:
-  field:
-    name: reporting_status
-    options:
-      complete: Complete
-      inprogress: In progress
-      notstarted: Not started
-      notapplicable: Not applicable
+  title: status.reporting_status
+  description: status.description
+  disaggregation_tabs: false
+  status_types:
+    - value: complete
+      label: status.published
+      hide_on_goal_pages: false
+    - value: inprogress
+      label: status.statistics_in_progress
+      hide_on_goal_pages: false
+    - value: notstarted
+      label: status.exploring_data_sources
+      hide_on_goal_pages: false
+    - value: notapplicable
+      label: status.not_applicable
+      hide_on_goal_pages: false
 favicons: favicon.io
 footer_language_toggle: none
 footer_menu:

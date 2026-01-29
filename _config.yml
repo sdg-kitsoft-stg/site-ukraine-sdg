@@ -42,11 +42,5 @@ exclude:
 
 hide_empty_metadata: true
 
-data_edit_url: ""
-metadata_edit_url: ""
-
-translations:
-  - class: TranslationInputFolder
-    source: translations
-  - class: TranslationInputRemote
-    repository: https://github.com/sdg-kitsoft-stg/sdg-translations.git
+data_edit_url: null
+metadata_edit_url: null

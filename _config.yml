@@ -42,6 +42,9 @@ exclude:
 
 hide_empty_metadata: true
 
+data_edit_url: ""
+metadata_edit_url: ""
+
 translations:
   - class: TranslationInputFolder
     source: translations

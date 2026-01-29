@@ -98,6 +98,9 @@ frontpage_introduction_banner:
 custom_css: []
 custom_js:
   - /assets/js/custom.js
+search_index:
+  include_indicators: true
+  extra_fields: [title, description, keywords]
 languages:
   - en
   - uk

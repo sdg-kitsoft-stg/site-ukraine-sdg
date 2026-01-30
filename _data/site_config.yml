@@ -101,6 +101,7 @@ custom_js:
 search_index:
   enabled: true
   include_indicators: true
+  include_language_in_url: false
 languages:
   - en
   - uk

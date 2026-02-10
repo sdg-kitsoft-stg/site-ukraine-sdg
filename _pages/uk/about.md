@@ -1,5 +1,5 @@
 ---
-title: Про нас
+title: Про платформу
 language: uk
 goal: none
 indicator: none

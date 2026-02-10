@@ -1,5 +1,5 @@
 ---
-title: Поширені запитання (FAQ)
+title: Запитання та відповіді
 language: uk
 goal: none
 indicator: none

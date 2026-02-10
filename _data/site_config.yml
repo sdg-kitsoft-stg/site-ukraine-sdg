@@ -32,7 +32,7 @@ footer_menu:
     translation_key: general.twitter
   - path: 'https://www.facebook.com/Ukrstat/'
     translation_key: general.facebook
-  - path: /about/cookies-and-privacy/
+  - path: /cookies-and-privacy/
     translation_key: menu.cookies
 frontpage_cards:
   - title: frontpage.download_all

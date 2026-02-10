@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Файли cookie та конфіденційність
+title: Файли Сookies
 language: uk
 goal: none
 indicator: none

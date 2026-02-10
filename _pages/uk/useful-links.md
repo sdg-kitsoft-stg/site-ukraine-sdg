@@ -22,4 +22,3 @@ page_type: useful-links
 [Звіт шістдесят третього пленарного засідання Конференції європейських статистиків (ECE/CES/89/Add.1)](https://www.unece.org/fileadmin/DAM/stats/documents/ece/ces/2015/CES_89_Add.1-E.pdf)
 
 [Профіль ЦСР України на вебсайті статистичного відділу ООН](https://country-profiles.unstatshub.org/ukr#)
-[Нагору](#top)

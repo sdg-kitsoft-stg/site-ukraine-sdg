@@ -4,7 +4,7 @@ title: Cookies and privacy
 language: en
 goal: none
 indicator: none
-permalink: /en/cookies-and-privacy/
+permalink: /cookies-and-privacy/
 ---
 ## User information
 This website uses cookies and JavaScript tracking code to gather anonymous information about visitors' usage patterns, in order to improve the navigation of the site, the presentation of its content and the quality of its services.

@@ -37,5 +37,3 @@ Our web site works with the most commonly used latest browsers versions. There c
 
 ## Can other countries copy data from this site?
 Yes, one can copy data from the site both by every selected indicator and all the data available on the platform.
-
-[Back to top](#top)

@@ -8,17 +8,17 @@ layout: page
 ---
 
 ## Table of contents
-- [Why are the SDGs important?](#why-are-the-SDGs-important)
+- [Why are the SDGs important?](#why-are-the-sdgs-important)
 
 - [According to which the SDG indicators are data on platform given?](#according-to-which-the-sdg-indicators-are-data-on-platform-given)
 
-- [How often will the new data be added to this website?](#how-often-will-the-new-data-be-added-to-this-website)
+- [How often will the new data be added to this website?](#how-often-will-the-new-data-be-added-to-this-site)
 
 - [What disaggregations are available?](#what-disaggregations-are-available)
 
 - [What browsers can I use to check out this website?](#what-browsers-can-i-use-to-check-out-this-website)
 
-- [Can other countries copy data from this website?](#can-other-countries-copy-data-from-this-website)
+- [Can other countries copy data from this website?](#can-other-countries-copy-data-from-this-site)
 
 ## Why are the SDGs important?
 The SDGs are aimed at achieving the common response to the issues faced by the world and which are impossible to resolve only using the efforts of selected groups or countries. Particularly, these are poverty, inequality, climate change crises and violence. The participation and solidarity among all the countries and groups of stakeholders are extremely important.

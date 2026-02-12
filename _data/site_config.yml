@@ -40,11 +40,11 @@ frontpage_cards:
   - title: custom.statistics_Ukraine
     include: components/card.html
     button_label: custom.statistics_button_label
-    button_link: 'http://www.ukrstat.gov.ua/'
+    button_link: custom.statistics_button_link
   - title: custom.sdg_ukrstat
     include: components/card.html
     button_label: custom.sdg_ukrstat_label
-    button_link: 'http://www.ukrstat.gov.ua/csr_prezent/ukr/st_rozv/metadata/metadata.htm'
+    button_link: custom.sdg_ukrstat_link
 create_goals:
   previous_next_links: false
   goals:

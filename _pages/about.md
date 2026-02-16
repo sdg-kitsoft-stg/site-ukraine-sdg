@@ -1,5 +1,5 @@
 ---
-title: About page
+title: About platform
 language: en
 goal: none
 indicator: none

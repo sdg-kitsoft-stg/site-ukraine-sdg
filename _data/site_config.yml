@@ -35,7 +35,7 @@ footer_menu:
   - path: /cookies-and-privacy/
     translation_key: menu.cookies
 frontpage_cards:
-  - title: frontpage.download_all
+  - title: frontpage.download_all_title
     include: components/download-all-data.html
   - title: custom.statistics_Ukraine
     button_label: custom.statistics_button_label

@@ -1,5 +1,9 @@
 name: Deploy to staging
 
+concurrency:
+  group: pages-${{ github.repository }}
+  cancel-in-progress: true
+
 on:
   push:
     branches:
@@ -141,12 +145,23 @@ jobs:
           path: _site
 
       # -------------------------
-      # 5) DEPLOY
+      # 5) SANITY CHECK (NEW)
+      # -------------------------
+      - name: Sanity check _site is not empty
+        run: |
+          set -euo pipefail
+          test -d _site
+          test -f _site/index.html
+          echo "Total files in _site:"
+          find _site -type f | wc -l
+
+      # -------------------------
+      # 6) DEPLOY (UPDATED)
       # -------------------------
       - name: Deploy to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@3.7.1
+        uses: JamesIves/github-pages-deploy-action@v4.8.0
         with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BRANCH: gh-pages
-          FOLDER: _site
-          CLEAN: true
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: gh-pages
+          folder: _site
+          clean: true

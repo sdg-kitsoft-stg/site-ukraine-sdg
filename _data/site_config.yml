@@ -104,3 +104,9 @@ languages:
   - en
   - uk
 default_language: uk
+date_formats:
+  standard: '%d %b %Y'
+  uk:
+    standard: '%d %b %Y'
+  en:
+    standard: '%b %d, %Y'

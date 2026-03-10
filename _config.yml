@@ -39,6 +39,8 @@ exclude:
   - README
   - README.md
   - LICENSE
+  - "meta/**/*-a.yml"
+  - "data/**/*-a.csv"
 
 hide_empty_metadata: true
 

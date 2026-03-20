@@ -2283,7 +2283,8 @@ body.contrast-high .indicator.goal-banner .goal-tiles img {
   color: #0B0C0C;
   font-size: 24px;
   font-weight: 700;
-  line-height: 32px; }
+  line-height: 32px;
+  margin-bottom: 32px; }
   .indicators-container .goal-target .col-auto h3 {
     margin: 0; }
 .indicators-container .goal-page-target-rule {
@@ -2522,7 +2523,7 @@ body.contrast-high .indicator.goal-banner .goal-tiles img {
   margin-bottom: 0px; }
 .layout-goals #main-content .goal-tiles .global-goals-extra-icon img {
   box-shadow: none; }
-.layout-goals .goals-page-description {
+.layout-goals .goals-page-description p {
   font-size: 18px;
   line-height: 27px;
   margin-bottom: 48px; }
@@ -3347,7 +3348,9 @@ body.contrast-high.layout-data-editor .ag-root-wrapper, body.contrast-high.layou
         font-style: normal;
         font-weight: 700;
         line-height: 27px;
-        text-decoration: underline; }
+        text-decoration: underline;
+        margin-bottom: 16px;
+        margin-top: 0; }
   #search-results .no-results-text {
     font-size: 19px;
     line-height: 27px;
@@ -3374,6 +3377,9 @@ body.contrast-high.layout-search form input, body.contrast-high.layout-search fo
 #indicator_search-bar-on-page:focus {
   background: white !important;
   box-shadow: none !important; }
+
+.goal-page-heading {
+  margin-bottom: 32px; }
 
 /**
  * custom.scss

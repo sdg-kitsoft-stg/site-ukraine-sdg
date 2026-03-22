@@ -2394,6 +2394,8 @@ body.contrast-high .indicator.goal-banner .goal-tiles img {
 .layout-reportingstatus #main-content .divider {
   height: 15px; }
 .layout-reportingstatus #main-content .goal {
+  display: flex;
+  align-items: center;
   clear: left;
   margin-bottom: 4px;
   padding-bottom: 4px; }

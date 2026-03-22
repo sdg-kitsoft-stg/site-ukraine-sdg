@@ -147,7 +147,7 @@ var translations = {
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" crossorigin="">
-        <link rel="stylesheet" href="/site-ukraine-sdg/assets/css/style.css?v=20260322071743">
+        <link rel="stylesheet" href="/site-ukraine-sdg/assets/css/style.css?v=20260322075604">
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
           integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
           crossorigin=""/>
@@ -443,24 +443,24 @@ layout-indicator
   data-id="7-7-1"
   data-country=""
   data-charttitle="Share of households receiving subsidies for housing and communal services (apartment building management service, natural gas supply and distribution services, electricity supply and distribution services, heat supply, hot water supply, centralized water supply, centralized water drainage, household waste management), percent"
-  data-charttitles="null"
+  data-charttitles="[]"
   data-measurementunit=""
   data-xaxislabel=""
   data-showdata="true"
   data-graphtype="line"
   data-graphtypes="null"
   data-geocoderegex=""
-  data-showmap=""
-  data-startvalues="null"
-  data-graphlimits="null"
+  data-showmap="false"
+  data-startvalues="[]"
+  data-graphlimits="[]"
   data-stackeddisaggregation=""
-  data-graphannotations="null"
+  data-graphannotations="[]"
   data-graphtargetlines="null"
   data-graphseriesbreaks="null"
   data-indicatordownloads="null"
   data-dataschema="{&quot;fields&quot;:[{&quot;name&quot;:&quot;Year&quot;,&quot;type&quot;:&quot;integer&quot;,&quot;title&quot;:&quot;Year&quot;},{&quot;name&quot;:&quot;Type of residence&quot;,&quot;type&quot;:&quot;string&quot;,&quot;constraints&quot;:{&quot;enum&quot;:[&quot;urban&quot;,&quot;rural&quot;,&quot;&quot;]},&quot;title&quot;:&quot;Type of residence&quot;},{&quot;name&quot;:&quot;Region&quot;,&quot;type&quot;:&quot;string&quot;,&quot;constraints&quot;:{&quot;enum&quot;:[&quot;Autonomous Republic of Crimea&quot;,&quot;Vinnytsya&quot;,&quot;Volyn&quot;,&quot;Dnipropetrovsk&quot;,&quot;Donetsk&quot;,&quot;Zhytomyr&quot;,&quot;Zakarpattya&quot;,&quot;Zaporizhzhya&quot;,&quot;Ivano-Frankivsk&quot;,&quot;Kyiv&quot;,&quot;Kirovohrad&quot;,&quot;Luhansk&quot;,&quot;Lviv&quot;,&quot;Mykolayiv&quot;,&quot;Odesa&quot;,&quot;Poltava&quot;,&quot;Rivne&quot;,&quot;Sumy&quot;,&quot;Ternopil&quot;,&quot;Kharkiv&quot;,&quot;Kherson&quot;,&quot;Khmelnytskiy&quot;,&quot;Cherkasy&quot;,&quot;Chernivtsi&quot;,&quot;Chernihiv&quot;,&quot;the city of Kyiv&quot;,&quot;city Sevastopol&quot;,&quot;&quot;]},&quot;title&quot;:&quot;Region&quot;},{&quot;name&quot;:&quot;Value&quot;,&quot;type&quot;:&quot;number&quot;,&quot;title&quot;:&quot;Value&quot;}]}"
   data-compositebreakdownlabel=""
-  data-precision="null"
+  data-precision="[]"
   data-proxy=""
   data-proxyseries="null"
 >
@@ -635,7 +635,13 @@ layout-indicator
   <div id="datatableFooter">
     
     
+    <p>Geographical Area: </p>
     
+    
+    <p>Unit of Measurement: </p>
+    
+    
+    <p>Footnote: </p>
     
   </div>
   
@@ -1632,6 +1638,8 @@ data-event-label="Change to Sources tab"
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js" integrity="sha256-Y26AMvaIfrZ1EQU49pf6H4QzVTrOI8m9wQYKkftBt4s=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/patternomaly@1.3.2/dist/patternomaly.js"></script>
 
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@1.2.2/dist/chartjs-plugin-annotation.min.js" integrity="sha256-XuHhf6q+GD7fscc96mTm/228GXf1Nn9wOYOE0EgeFzY=" crossorigin="anonymous"></script>
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/autotrack/2.4.1/autotrack.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.0.0-rc.3/dist/html2canvas.js"></script>
@@ -1649,12 +1657,12 @@ data-event-label="Change to Sources tab"
 <script>translations['search'] = translations['search'] || {};
     translations['search']['search'] = 'Search';</script>
 
-<script src='/site-ukraine-sdg/assets/js/sdg.js?v=20260322071743'></script>
+<script src='/site-ukraine-sdg/assets/js/sdg.js?v=20260322075604'></script>
 
 
     
     
-    <script src="/site-ukraine-sdg/assets/js/custom.js?v=20260322071743"></script><script>
+    <script src="/site-ukraine-sdg/assets/js/custom.js?v=20260322075604"></script><script>
     new indicatorInit();
     new accessibilitySwitcher();
 </script>

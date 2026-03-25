@@ -2146,7 +2146,7 @@ footer {
     font-size: 16px;
     margin-bottom: 0; }
 .layout-goal .goal-target {
-  margin-top: 0; }
+  margin-top: 40px; }
 .layout-goal .goal-indicator {
   margin-top: 40px; }
   .layout-goal .goal-indicator h4 {
@@ -2526,8 +2526,8 @@ body.contrast-high .indicator.goal-banner .goal-tiles img {
 .layout-goals #main-content .goal-tiles .global-goals-extra-icon img {
   box-shadow: none; }
 .layout-goals .goals-page-description p {
-  font-size: 18px;
-  line-height: 27px;
+  font-size: 18px !important;
+  line-height: 27px !important;
   margin-bottom: 48px; }
 .layout-goals .goal-tiles {
   padding-bottom: 64px; }

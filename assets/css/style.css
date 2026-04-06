@@ -2019,7 +2019,7 @@ ul > li > p {
     font-size: 19px;
     font-weight: 600;
     line-height: 27px; }
-    #main-content .edition-tabs-content .indicator-footer-reference {
+    #main-content .edition-tabs-content #main-content .indicator-footer-reference {
       display: none; }
     #main-content .edition-tabs-content h3 {
       color: #0B0C0C;

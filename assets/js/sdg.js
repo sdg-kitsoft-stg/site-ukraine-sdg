@@ -4194,13 +4194,53 @@ opensdg.chartTypes.base = function(info) {
 
   opensdg.chartTypes.line = function(info) {
     var config = opensdg.chartTypes.base(info);
+
+    function getPageLocale() {
+        var lang = document.documentElement.lang || 'en';
+        return lang.toLowerCase().startsWith('uk') ? 'uk-UA' : lang;
+    }
+
+    function formatChartNumber(value) {
+        if (value === null || value === undefined || value === '') {
+            return '';
+        }
+
+        var num = typeof value === 'number'
+            ? value
+            : Number(String(value).replace(',', '.'));
+
+        if (!Number.isFinite(num)) {
+            return value;
+        }
+
+        return new Intl.NumberFormat(getPageLocale(), {
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 20
+        }).format(num);
+    }
+
     var overrides = {
         type: 'line',
         options: {
+            scales: {
+                y: {
+                    ticks: {
+                        callback: function(value) {
+                            return formatChartNumber(value);
+                        }
+                    }
+                }
+            },
             plugins: {
                 tooltip: {
                     mode: 'index',
                     intersect: false,
+                    callbacks: {
+                        label: function(context) {
+                            var label = context.dataset.label ? context.dataset.label + ': ' : '';
+                            return label + formatChartNumber(context.parsed.y);
+                        }
+                    }
                 },
             },
         },
@@ -4213,7 +4253,6 @@ opensdg.chartTypes.base = function(info) {
                         topY = chart.scales.y.top,
                         bottomY = chart.scales.y.bottom;
 
-                    // draw line
                     ctx.save();
                     ctx.beginPath();
                     ctx.moveTo(x, topY);
@@ -4226,10 +4265,11 @@ opensdg.chartTypes.base = function(info) {
             }
         }],
     };
-    // Add these overrides onto the normal config, and return it.
+
     _.merge(config, overrides);
     return config;
 }
+
   opensdg.chartTypes.bar = function (info) {
     var config = opensdg.chartTypes.base(info);
     var overrides = {

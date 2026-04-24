@@ -4213,10 +4213,24 @@ opensdg.chartTypes.base = function(info) {
             return value;
         }
 
-        return new Intl.NumberFormat('fr-FR', {
+        if (Number.isInteger(num)) {
+            return new Intl.NumberFormat('fr-FR', {
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 20
+            }).format(num).replace(/\s/g, ' ');
+        }
+
+        if (opensdg.language === 'uk') {
+            return new Intl.NumberFormat('uk-UA', {
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 20
+            }).format(num).replace(/\s/g, ' ');
+        }
+
+        return new Intl.NumberFormat('en-US', {
             minimumFractionDigits: 0,
             maximumFractionDigits: 20
-        }).format(num).replace(/\s/g, ' ');
+        }).format(num);
     }
 
     var overrides = {
@@ -4776,7 +4790,11 @@ function alterDataDisplay(value, info, context, additionalInfo) {
         if (Number.isInteger(altered)) {
             altered = altered.toLocaleString('fr-FR').replace(/\s/g, ' ');
         } else {
-            altered = altered.toString();
+            if (opensdg.language === 'uk') {
+                altered = altered.toString().replace('.', ',');
+            } else {
+                altered = altered.toString();
+            }
         }
     }
     // Now let's add any footnotes from observation attributes.

@@ -4213,10 +4213,10 @@ opensdg.chartTypes.base = function(info) {
             return value;
         }
 
-        return new Intl.NumberFormat(getPageLocale(), {
+        return new Intl.NumberFormat('fr-FR', {
             minimumFractionDigits: 0,
             maximumFractionDigits: 20
-        }).format(num);
+        }).format(num).replace(/\s/g, ' ');
     }
 
     var overrides = {
@@ -4774,7 +4774,7 @@ function alterDataDisplay(value, info, context, additionalInfo) {
         }
 
         if (Number.isInteger(altered)) {
-            altered = altered.toLocaleString('fr-FR');
+            altered = altered.toLocaleString('fr-FR').replace(/\s/g, ' ');
         } else {
             altered = altered.toString();
         }

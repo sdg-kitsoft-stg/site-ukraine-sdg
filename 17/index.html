@@ -147,7 +147,7 @@ var translations = {
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" crossorigin="">
-        <link rel="stylesheet" href="/site-ukraine-sdg/assets/css/style.css?v=20260501104014">
+        <link rel="stylesheet" href="/site-ukraine-sdg/assets/css/style.css?v=20260501145628">
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
           integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
           crossorigin=""/>
@@ -324,7 +324,7 @@ layout-goal
 
         <ul class="nav nav-tabs edition-tabs" role="tablist">
             <li role="presentation">
-                <a href="#current-edition" class="active" aria-controls="current-edition" role="tab" data-bs-toggle="tab">
+                <a href="#current-edition" aria-controls="current-edition" role="tab" data-bs-toggle="tab">
                     <div class="tab-content-wrapper">
                         <span class="radio-dot"></span>
                         <div class="text-group">
@@ -1076,7 +1076,6 @@ layout-goal
 
         targetDiv.appendChild(iframe);
     }
-
     document.addEventListener('DOMContentLoaded', function() {
         const collapses = document.querySelectorAll('.collapse');
 
@@ -1092,6 +1091,49 @@ layout-goal
                 button.textContent = button.getAttribute('data-text-show');
             });
         });
+
+        const heading = document.querySelector('.goal-banner');
+        const thirdClassName = [...heading.classList][2];
+        const indicatorNumber = thirdClassName.split('-')[1];
+
+        const STORAGE_KEY = `indicator_active_tab${indicatorNumber}`;
+        const tabs = document.querySelectorAll('[data-bs-toggle="tab"]');
+
+        if (!tabs.length) return;
+
+        function activateTab(tabSelector) {
+            const tabTrigger = document.querySelector(
+                `[data-bs-toggle="tab"][href="${tabSelector}"], [data-bs-toggle="tab"][data-bs-target="${tabSelector}"]`
+            );
+
+            if (!tabTrigger) return;
+
+            if (window.bootstrap && bootstrap.Tab) {
+                const tab = new bootstrap.Tab(tabTrigger);
+                tab.show();
+            } else {
+                tabTrigger.click();
+            }
+        }
+
+        tabs.forEach(function (tab) {
+            tab.addEventListener('shown.bs.tab', function (event) {
+                const target =
+                    event.target.getAttribute('data-bs-target') ||
+                    event.target.getAttribute('href');
+
+                if (target) {
+                    sessionStorage.setItem(STORAGE_KEY, target);
+                }
+            });
+        });
+
+        const firstTab = document.querySelector('[data-bs-toggle="tab"]').getAttribute('href');
+        const savedTab = sessionStorage.getItem(STORAGE_KEY) || firstTab;
+
+        if (savedTab) {
+            activateTab(savedTab);
+        }
     });
 </script>
 
@@ -1161,12 +1203,12 @@ layout-goal
 <script>translations['search'] = translations['search'] || {};
     translations['search']['search'] = 'Search';</script>
 
-<script src='/site-ukraine-sdg/assets/js/sdg.js?v=20260501104014'></script>
+<script src='/site-ukraine-sdg/assets/js/sdg.js?v=20260501145628'></script>
 
 
     
     
-    <script src="/site-ukraine-sdg/assets/js/custom.js?v=20260501104014"></script><script>
+    <script src="/site-ukraine-sdg/assets/js/custom.js?v=20260501145628"></script><script>
     new indicatorInit();
     new accessibilitySwitcher();
 </script>

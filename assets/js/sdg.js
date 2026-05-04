@@ -4438,7 +4438,6 @@ function toCsv(tableData, selectedSeries, selectedUnit) {
 
     if (metadataRows.length) {
         lines.push('');
-        lines.push('"Metadata field","Metadata value"');
         lines = lines.concat(metadataRows);
     }
 

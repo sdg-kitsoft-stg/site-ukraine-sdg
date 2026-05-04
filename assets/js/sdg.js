@@ -4434,7 +4434,38 @@ function toCsv(tableData, selectedSeries, selectedUnit) {
         lines.push(line.join(','));
     });
 
+    var metadataRows = getMetadataCsvRows('#national .metadata-content');
+
+    if (metadataRows.length) {
+        lines.push('');
+        lines.push('"Metadata field","Metadata value"');
+        lines = lines.concat(metadataRows);
+    }
+
     return lines.join('\n');
+}
+
+function getMetadataCsvRows(selector) {
+    var rows = [];
+    var $table = $(selector);
+
+    if (!$table.length) {
+        return rows;
+    }
+
+    $table.find('tbody tr').each(function () {
+        var key = $(this).find('th').text().trim();
+        var value = $(this).find('td').text().trim().replace(/\s+/g, ' ');
+
+        if (key || value) {
+            rows.push([
+                '"' + key.replace(/"/g, '""') + '"',
+                '"' + value.replace(/"/g, '""') + '"'
+            ].join(','));
+        }
+    });
+
+    return rows;
 }
 
 /**
@@ -4887,13 +4918,6 @@ function createDownloadButton(table, name, indicatorId, el, selectedSeries, sele
         }
         var gaLabel = 'Download ' + name + ' CSV: ' + indicatorId.replace('indicator_', '');
         var tableCsv = toCsv(table, selectedSeries, selectedUnit);
-
-        var metadataTable = document.getElementById('metadataTabs') && document.getElementById('metadataTabs').getElementById('national') && document.getElementById('metadataTabs').getElementById('national').querySelector('table');
-        var metadataCsv = toCsv(metadataTable, selectedSeries, selectedUnit);
-        console.log({
-            tableCsv,
-            metadataCsv
-        });
         var fileName = indicatorId + '.csv';
         var downloadButton = $('<a />').text(translations.indicator[downloadKey])
             .attr(opensdg.autotrack('download_data_current', 'Downloads', 'Download CSV', gaLabel))

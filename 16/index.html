@@ -147,7 +147,7 @@ var translations = {
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" crossorigin="">
-        <link rel="stylesheet" href="/site-ukraine-sdg/assets/css/style.css?v=20260504135336">
+        <link rel="stylesheet" href="/site-ukraine-sdg/assets/css/style.css?v=20260505095627">
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
           integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
           crossorigin=""/>
@@ -271,7 +271,7 @@ layout-goal
             </li>
             <li class="breadcrumb-item">
                 
-                    <a href="/site-ukraine-sdg/goals/">Goals</a>
+                <a href="/site-ukraine-sdg/goals/">Goals</a>
                 
             </li>
             <li class="breadcrumb-item active" aria-current="page">
@@ -324,7 +324,14 @@ layout-goal
 
         <ul class="nav nav-tabs edition-tabs" role="tablist">
             <li role="presentation">
-                <a href="#current-edition" aria-controls="current-edition" role="tab" data-bs-toggle="tab">
+                <a href="#current-edition"
+                   class="nav-link"
+                   id="current-edition-tab"
+                   data-bs-toggle="tab"
+                   role="tab"
+                   aria-controls="current-edition"
+                   aria-selected="true"
+                >
                     <div class="tab-content-wrapper">
                         <span class="radio-dot"></span>
                         <div class="text-group">
@@ -339,7 +346,14 @@ layout-goal
                 </a>
             </li>
             <li role="presentation">
-                <a href="#archive-edition" aria-controls="archive-edition" role="tab" data-bs-toggle="tab">
+                <a href="#archive-edition"
+                   class="nav-link"
+                   id="archive-edition-tab"
+                   data-bs-toggle="tab"
+                   role="tab"
+                   aria-controls="archive-edition"
+                   aria-selected="false"
+                >
                     <div class="tab-content-wrapper">
                         <span class="radio-dot"></span>
                         <div class="text-group">
@@ -356,7 +370,10 @@ layout-goal
         </ul>
 
         <div class="tab-content edition-tabs-content border-0 p-0">
-            <div class="tab-pane active" id="current-edition" role="tabpanel">
+            <div class="tab-pane fade"
+                 id="current-edition"
+                 role="tabpanel"
+                 aria-labelledby="current-edition-tab">
                 <div style="margin-top: 20px;"></div>
 
                 
@@ -435,7 +452,9 @@ layout-goal
                         </a>
                     </div>
                 </div>
+                
                 <hr class="goal-page-target-rule" aria-hidden="true">
+                
                 
                 
                 
@@ -513,7 +532,9 @@ layout-goal
                         </a>
                     </div>
                 </div>
+                
                 <hr class="goal-page-target-rule" aria-hidden="true">
+                
                 
                 
                 
@@ -579,7 +600,9 @@ layout-goal
                         </a>
                     </div>
                 </div>
+                
                 <hr class="goal-page-target-rule" aria-hidden="true">
+                
                 
                 
                 
@@ -645,7 +668,9 @@ layout-goal
                         </a>
                     </div>
                 </div>
+                
                 <hr class="goal-page-target-rule" aria-hidden="true">
+                
                 
                 
                 
@@ -711,7 +736,9 @@ layout-goal
                         </a>
                     </div>
                 </div>
+                
                 <hr class="goal-page-target-rule" aria-hidden="true">
+                
                 
                 
                 
@@ -790,7 +817,9 @@ layout-goal
                         </a>
                     </div>
                 </div>
+                
                 <hr class="goal-page-target-rule" aria-hidden="true">
+                
                 
                 
                 
@@ -856,7 +885,9 @@ layout-goal
                         </a>
                     </div>
                 </div>
+                
                 <hr class="goal-page-target-rule" aria-hidden="true">
+                
                 
                 
                 
@@ -922,7 +953,9 @@ layout-goal
                         </a>
                     </div>
                 </div>
+                
                 <hr class="goal-page-target-rule" aria-hidden="true">
+                
                 
                 
 
@@ -997,7 +1030,9 @@ layout-goal
                         </a>
                     </div>
                 </div>
+                
                 <hr class="goal-page-target-rule" aria-hidden="true">
+                
                 
                 
                 
@@ -1063,7 +1098,9 @@ layout-goal
                         </a>
                     </div>
                 </div>
+                
                 <hr class="goal-page-target-rule" aria-hidden="true">
+                
                 
                 
 
@@ -1138,7 +1175,9 @@ layout-goal
                         </a>
                     </div>
                 </div>
+                
                 <hr class="goal-page-target-rule" aria-hidden="true">
+                
                 
                 
                 
@@ -1204,7 +1243,9 @@ layout-goal
                         </a>
                     </div>
                 </div>
+                
                 <hr class="goal-page-target-rule" aria-hidden="true">
+                
                 
                 
                 
@@ -1270,7 +1311,9 @@ layout-goal
                         </a>
                     </div>
                 </div>
+                
                 <hr class="goal-page-target-rule" aria-hidden="true">
+                
                 
                 
                 
@@ -1346,7 +1389,9 @@ layout-goal
                         </a>
                     </div>
                 </div>
+                
                 <hr class="goal-page-target-rule" aria-hidden="true">
+                
                 
                 
                 
@@ -1412,7 +1457,9 @@ layout-goal
                         </a>
                     </div>
                 </div>
+                
                 <hr class="goal-page-target-rule" aria-hidden="true">
+                
                 
                 
 
@@ -1477,7 +1524,9 @@ layout-goal
                         </a>
                     </div>
                 </div>
+                
                 <hr class="goal-page-target-rule" aria-hidden="true">
+                
                 
                 
 
@@ -1552,7 +1601,9 @@ layout-goal
                         </a>
                     </div>
                 </div>
+                
                 <hr class="goal-page-target-rule" aria-hidden="true">
+                
                 
                 
                 
@@ -1618,7 +1669,9 @@ layout-goal
                         </a>
                     </div>
                 </div>
+                
                 <hr class="goal-page-target-rule" aria-hidden="true">
+                
                 
                 
 
@@ -1693,7 +1746,9 @@ layout-goal
                         </a>
                     </div>
                 </div>
+                
                 <hr class="goal-page-target-rule" aria-hidden="true">
+                
                 
                 
                 
@@ -1759,7 +1814,9 @@ layout-goal
                         </a>
                     </div>
                 </div>
+                
                 <hr class="goal-page-target-rule" aria-hidden="true">
+                
                 
                 
                 
@@ -1838,7 +1895,9 @@ layout-goal
                         </a>
                     </div>
                 </div>
+                
                 <hr class="goal-page-target-rule" aria-hidden="true">
+                
                 
                 
                 
@@ -1904,7 +1963,9 @@ layout-goal
                         </a>
                     </div>
                 </div>
+                
                 <hr class="goal-page-target-rule" aria-hidden="true">
+                
                 
                 
 
@@ -1979,7 +2040,9 @@ layout-goal
                         </a>
                     </div>
                 </div>
+                
                 <hr class="goal-page-target-rule" aria-hidden="true">
+                
                 
                 
 
@@ -2044,7 +2107,9 @@ layout-goal
                         </a>
                     </div>
                 </div>
+                
                 <hr class="goal-page-target-rule" aria-hidden="true">
+                
                 
                 
 
@@ -2109,7 +2174,9 @@ layout-goal
                         </a>
                     </div>
                 </div>
+                
                 <hr class="goal-page-target-rule" aria-hidden="true">
+                
                 
                 
 
@@ -2174,7 +2241,9 @@ layout-goal
                         </a>
                     </div>
                 </div>
+                
                 <hr class="goal-page-target-rule" aria-hidden="true">
+                
                 
                 
 
@@ -2239,7 +2308,9 @@ layout-goal
                         </a>
                     </div>
                 </div>
+                
                 <hr class="goal-page-target-rule" aria-hidden="true">
+                
                 
                 
 
@@ -2314,7 +2385,9 @@ layout-goal
                         </a>
                     </div>
                 </div>
+                
                 <hr class="goal-page-target-rule" aria-hidden="true">
+                
                 
                 
 
@@ -2379,7 +2452,9 @@ layout-goal
                         </a>
                     </div>
                 </div>
+                
                 <hr class="goal-page-target-rule" aria-hidden="true">
+                
                 
                 
 
@@ -2454,7 +2529,9 @@ layout-goal
                         </a>
                     </div>
                 </div>
+                
                 <hr class="goal-page-target-rule" aria-hidden="true">
+                
                 
                 
 
@@ -2529,7 +2606,9 @@ layout-goal
                         </a>
                     </div>
                 </div>
+                
                 <hr class="goal-page-target-rule" aria-hidden="true">
+                
                 
                 
 
@@ -2594,7 +2673,9 @@ layout-goal
                         </a>
                     </div>
                 </div>
+                
                 <hr class="goal-page-target-rule" aria-hidden="true">
+                
                 
                 
 
@@ -2662,8 +2743,10 @@ layout-goal
                 
                 
             </div>
-
-            <div class="tab-pane" id="archive-edition" role="tabpanel">
+            <div class="tab-pane fade"
+                 id="archive-edition"
+                 role="tabpanel"
+                 aria-labelledby="archive-edition-tab">
                 <div style="margin-top: 20px;"></div>
 
                 
@@ -2742,7 +2825,9 @@ layout-goal
                         </a>
                     </div>
                 </div>
+                
                 <hr class="goal-page-target-rule">
+                
                 
                 
 
@@ -2803,7 +2888,9 @@ layout-goal
                         </a>
                     </div>
                 </div>
+                
                 <hr class="goal-page-target-rule">
+                
                 
                 
 
@@ -2864,7 +2951,9 @@ layout-goal
                         </a>
                     </div>
                 </div>
+                
                 <hr class="goal-page-target-rule">
+                
                 
                 
                 
@@ -2938,7 +3027,9 @@ layout-goal
                         </a>
                     </div>
                 </div>
+                
                 <hr class="goal-page-target-rule">
+                
                 
                 
                 
@@ -3000,7 +3091,9 @@ layout-goal
                         </a>
                     </div>
                 </div>
+                
                 <hr class="goal-page-target-rule">
+                
                 
                 
                 
@@ -3062,7 +3155,9 @@ layout-goal
                         </a>
                     </div>
                 </div>
+                
                 <hr class="goal-page-target-rule">
+                
                 
                 
                 
@@ -3124,7 +3219,9 @@ layout-goal
                         </a>
                     </div>
                 </div>
+                
                 <hr class="goal-page-target-rule">
+                
                 
                 
 
@@ -3185,7 +3282,9 @@ layout-goal
                         </a>
                     </div>
                 </div>
+                
                 <hr class="goal-page-target-rule">
+                
                 
                 
 
@@ -3246,7 +3345,9 @@ layout-goal
                         </a>
                     </div>
                 </div>
+                
                 <hr class="goal-page-target-rule">
+                
                 
                 
 
@@ -3307,7 +3408,9 @@ layout-goal
                         </a>
                     </div>
                 </div>
+                
                 <hr class="goal-page-target-rule">
+                
                 
                 
                 
@@ -3381,7 +3484,9 @@ layout-goal
                         </a>
                     </div>
                 </div>
+                
                 <hr class="goal-page-target-rule">
+                
                 
                 
                 
@@ -3443,7 +3548,9 @@ layout-goal
                         </a>
                     </div>
                 </div>
+                
                 <hr class="goal-page-target-rule">
+                
                 
                 
                 
@@ -3518,7 +3625,9 @@ layout-goal
                         </a>
                     </div>
                 </div>
+                
                 <hr class="goal-page-target-rule">
+                
                 
                 
                 
@@ -3593,7 +3702,9 @@ layout-goal
                         </a>
                     </div>
                 </div>
+                
                 <hr class="goal-page-target-rule">
+                
                 
                 
                 
@@ -3655,7 +3766,9 @@ layout-goal
                         </a>
                     </div>
                 </div>
+                
                 <hr class="goal-page-target-rule">
+                
                 
                 
                 
@@ -3717,7 +3830,9 @@ layout-goal
                         </a>
                     </div>
                 </div>
+                
                 <hr class="goal-page-target-rule">
+                
                 
                 
                 
@@ -3791,7 +3906,9 @@ layout-goal
                         </a>
                     </div>
                 </div>
+                
                 <hr class="goal-page-target-rule">
+                
                 
                 
                 
@@ -3867,7 +3984,9 @@ layout-goal
                         </a>
                     </div>
                 </div>
+                
                 <hr class="goal-page-target-rule">
+                
                 
                 
                 
@@ -3942,7 +4061,9 @@ layout-goal
                         </a>
                     </div>
                 </div>
+                
                 <hr class="goal-page-target-rule">
+                
                 
                 
                 
@@ -4004,7 +4125,9 @@ layout-goal
                         </a>
                     </div>
                 </div>
+                
                 <hr class="goal-page-target-rule">
+                
                 
                 
 
@@ -4065,7 +4188,9 @@ layout-goal
                         </a>
                     </div>
                 </div>
+                
                 <hr class="goal-page-target-rule">
+                
                 
                 
 
@@ -4126,7 +4251,9 @@ layout-goal
                         </a>
                     </div>
                 </div>
+                
                 <hr class="goal-page-target-rule">
+                
                 
                 
 
@@ -4187,7 +4314,9 @@ layout-goal
                         </a>
                     </div>
                 </div>
+                
                 <hr class="goal-page-target-rule">
+                
                 
                 
                 
@@ -4261,7 +4390,9 @@ layout-goal
                         </a>
                     </div>
                 </div>
+                
                 <hr class="goal-page-target-rule">
+                
                 
                 
                 
@@ -4299,7 +4430,7 @@ layout-goal
         iframe.style.visibility = "hidden";
         iframe.title = `${indicatorTitle} ${slug}`;
 
-        iframe.onload = function() {
+        iframe.onload = function () {
             try {
                 const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
                 const chart = iframeDoc.getElementById('selectionsChart');
@@ -4317,14 +4448,14 @@ layout-goal
 
                     const style = iframeDoc.createElement('style');
                     style.textContent = `
-            .plot-container { padding: 0 !important; }
-            #chart-canvas { margin-top: 0 !important; }
-            #main-content { margin: 0 !important; }
-            #main-content #indicatorData { margin-top: 0 !important; }
-            #legend { margin-bottom: 0 !important; }
-            #selectionsChart figure { margin-bottom: 0 !important; }
-            .tab-content.data-view { border: none !important; padding: 0 !important; }
-        `;
+                        .plot-container { padding: 0 !important; }
+                        #chart-canvas { margin-top: 0 !important; }
+                        #main-content { margin: 0 !important; }
+                        #main-content #indicatorData { margin-top: 0 !important; }
+                        #legend { margin-bottom: 0 !important; }
+                        #selectionsChart figure { margin-bottom: 0 !important; }
+                        .tab-content.data-view { border: none !important; padding: 0 !important; }
+                    `;
                     iframeDoc.head.appendChild(style);
 
                     const toHideInside = iframeDoc.querySelectorAll('#chart-heading, #selectionChartFooter, #chartSelectionDownload, .breadcrumb, header, footer, .nav-tabs, #indicator-sidebar, #metadataTabs, a[href="#top"], .indicator-footer-reference');
@@ -4346,64 +4477,38 @@ layout-goal
 
         targetDiv.appendChild(iframe);
     }
-    document.addEventListener('DOMContentLoaded', function() {
-        const collapses = document.querySelectorAll('.collapse');
 
-        collapses.forEach(collapseEl => {
-            const button = document.querySelector(`[data-bs-target="#${collapseEl.id}"]`);
-            if (!button) return;
-
-            collapseEl.addEventListener('show.bs.collapse', function () {
-                button.textContent = button.getAttribute('data-text-hide');
-            });
-
-            collapseEl.addEventListener('hide.bs.collapse', function () {
-                button.textContent = button.getAttribute('data-text-show');
-            });
-        });
-
+    document.addEventListener('DOMContentLoaded', function () {
         const heading = document.querySelector('.goal-banner');
+        if (!heading) return;
+
         const thirdClassName = [...heading.classList][2];
         const indicatorNumber = thirdClassName.split('-')[1];
-
         const STORAGE_KEY = `indicator_active_tab${indicatorNumber}`;
-        const tabs = document.querySelectorAll('[data-bs-toggle="tab"]');
 
-        if (!tabs.length) return;
+        const savedTab = sessionStorage.getItem(STORAGE_KEY) || '#current-edition';
 
-        function activateTab(tabSelector) {
-            const tabTrigger = document.querySelector(
-                `[data-bs-toggle="tab"][href="${tabSelector}"], [data-bs-toggle="tab"][data-bs-target="${tabSelector}"]`
-            );
+        const tabTrigger = document.querySelector(
+            `[data-bs-toggle="tab"][href="${savedTab}"], [data-bs-toggle="tab"][data-bs-target="${savedTab}"]`
+        );
 
-            if (!tabTrigger) return;
+        const tabPanes = document.querySelectorAll('.edition-tabs-content .tab-pane');
 
-            if (window.bootstrap && bootstrap.Tab) {
-                const tab = new bootstrap.Tab(tabTrigger);
-                tab.show();
-            } else {
-                tabTrigger.click();
-            }
-        }
+        tabPanes.forEach(p => p.classList.remove('fade'));
 
-        tabs.forEach(function (tab) {
+        const tab = new bootstrap.Tab(tabTrigger);
+        tab.show();
+
+        document.querySelectorAll('[data-bs-toggle="tab"]').forEach(function (tab) {
             tab.addEventListener('shown.bs.tab', function (event) {
                 const target =
                     event.target.getAttribute('data-bs-target') ||
                     event.target.getAttribute('href');
-
                 if (target) {
                     sessionStorage.setItem(STORAGE_KEY, target);
                 }
             });
         });
-
-        const firstTab = document.querySelector('[data-bs-toggle="tab"]').getAttribute('href');
-        const savedTab = sessionStorage.getItem(STORAGE_KEY) || firstTab;
-
-        if (savedTab) {
-            activateTab(savedTab);
-        }
     });
 </script>
 
@@ -4473,12 +4578,12 @@ layout-goal
 <script>translations['search'] = translations['search'] || {};
     translations['search']['search'] = 'Search';</script>
 
-<script src='/site-ukraine-sdg/assets/js/sdg.js?v=20260504135336'></script>
+<script src='/site-ukraine-sdg/assets/js/sdg.js?v=20260505095627'></script>
 
 
     
     
-    <script src="/site-ukraine-sdg/assets/js/custom.js?v=20260504135336"></script><script>
+    <script src="/site-ukraine-sdg/assets/js/custom.js?v=20260505095627"></script><script>
     new indicatorInit();
     new accessibilitySwitcher();
 </script>

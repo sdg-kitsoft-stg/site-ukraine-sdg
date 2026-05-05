@@ -2037,6 +2037,10 @@ ul > li > p {
     line-height: 27px; }
     #main-content .edition-tabs-content #main-content .indicator-footer-reference {
       display: none; }
+    #main-content .edition-tabs-content .tab-pane {
+      display: none !important; }
+      #main-content .edition-tabs-content .tab-pane.active {
+        display: block !important; }
     #main-content .edition-tabs-content h3 {
       color: #0B0C0C;
       font-size: 24px;

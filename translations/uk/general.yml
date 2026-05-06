@@ -40,3 +40,9 @@ view_indicator_details: 'Переглянути деталі індикатор�
 loading_chart: 'Завантаження графіка...'
 breadcrumbs: 'Хлібні крихти'
 country_name: 'Україна'
+outdate_browser_hint: 'Для комфортної роботи в Мережі потрібен сучасний браузер. Тут можна знайти останні версії.'
+outdate_browser_hint_pc: "Цей сайт призначений для комп'ютерів, але <br>ви можете вільно користуватися ним."
+browser_usage: "людей використовує<br>цей браузер"
+download: 'Завантажити'
+available_for: 'Доступно для'
+available_only_mac: 'Доступний тільки з macOS'

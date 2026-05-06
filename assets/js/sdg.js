@@ -4447,8 +4447,21 @@ function toCsv(tableData, selectedSeries, selectedUnit) {
     var lines = [];
     var lang = document.documentElement.lang || 'uk';
 
-    var dataHeadings = _.map(tableData.headings, function (heading) {
-        return formatCsvValue(translations.t(heading));
+    var dataHeadings = _.map(tableData.headings, function (heading, index) {
+        var translatedHeading = translations.t(heading);
+        var lang = document.documentElement.lang || 'uk';
+
+        if (
+            !translatedHeading ||
+            translatedHeading === '' ||
+            translatedHeading === 'undefined'
+        ) {
+            translatedHeading = lang === 'uk'
+                ? 'Значення'
+                : 'Value';
+        }
+
+        return formatCsvValue(translatedHeading);
     });
 
     var metaHeadings = [];
@@ -4467,10 +4480,7 @@ function toCsv(tableData, selectedSeries, selectedUnit) {
         var line = [];
 
         _.each(tableData.headings, function (heading, index) {
-            const valueTitle = lang === 'uk' ? 'Значення': 'Value';
-            const t = dataValues[index].length ? dataValues[index] : valueTitle
-
-            line.push(formatCsvValue(t));
+            line.push(formatCsvValue(dataValues[index]));
         });
 
         if (selectedSeries) {

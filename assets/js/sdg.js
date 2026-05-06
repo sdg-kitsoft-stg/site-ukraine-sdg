@@ -4407,20 +4407,50 @@ function formatCsvValue(value) {
     }
 
     var str = String(value).trim();
+    var lang = document.documentElement.lang || 'uk';
 
+    // Decimal localization
     if (/^-?\d+\.\d+$/.test(str)) {
-        str = str.replace('.', ',');
+        if (lang === 'uk') {
+            str = str.replace('.', ',');
+        }
     }
 
     return '"' + str.replace(/"/g, '""') + '"';
 }
 
+function getMetadataCsvRows(selector) {
+    var rows = [];
+    var $table = $(selector);
+
+    if (!$table.length) {
+        return rows;
+    }
+
+    $table.find('tbody tr').each(function () {
+        var key = $(this).find('th').text().trim();
+        var value = $(this).find('td').text().trim().replace(/\s+/g, ' ');
+
+        if (key || value) {
+            rows.push([
+                formatCsvValue(key),
+                formatCsvValue(value)
+            ].join(';'));
+        }
+    });
+
+    return rows;
+}
+
 function toCsv(tableData, selectedSeries, selectedUnit) {
     var delimiter = ';';
     var lines = [];
+    var lang = document.documentElement.lang || 'uk';
+
     var dataHeadings = _.map(tableData.headings, function (heading) {
         return formatCsvValue(translations.t(heading));
     });
+
     var metaHeadings = [];
 
     if (selectedSeries) {
@@ -4455,33 +4485,17 @@ function toCsv(tableData, selectedSeries, selectedUnit) {
 
     if (metadataRows.length) {
         lines.push('');
+
+        if (lang === 'uk') {
+            lines.push('"Поле метаданих";"Значення метаданих"');
+        } else {
+            lines.push('"Metadata field";"Metadata value"');
+        }
+
         lines = lines.concat(metadataRows);
     }
 
     return '\ufeff' + lines.join('\n');
-}
-
-function getMetadataCsvRows(selector) {
-    var rows = [];
-    var $table = $(selector);
-
-    if (!$table.length) {
-        return rows;
-    }
-
-    $table.find('tbody tr').each(function () {
-        var key = $(this).find('th').text().trim();
-        var value = $(this).find('td').text().trim().replace(/\s+/g, ' ');
-
-        if (key || value) {
-            rows.push([
-                '"' + key.replace(/"/g, '""') + '"',
-                '"' + value.replace(/"/g, '""') + '"'
-            ].join(';'));
-        }
-    });
-
-    return rows;
 }
 
 /**
@@ -4998,12 +5012,15 @@ function formatExcelCsvValue(value) {
     }
 
     var str = String(value).trim();
-    
+    var lang = document.documentElement.lang || 'uk';
+
     if (/^-?\d+\.\d+$/.test(str)) {
-        str = str.replace('.', ',');
+        if (lang === 'uk') {
+            str = str.replace('.', ',');
+        }
     }
 
-    return escapeCsvValue(str);
+    return '"' + str.replace(/"/g, '""') + '"';
 }
 
 function parseCsvLine(line) {
@@ -5080,8 +5097,16 @@ function downloadCsvWithMetadata(indicatorId) {
             var metadataRows = getMetadataCsvRows('#national .metadata-content');
 
             if (metadataRows.length) {
+                var lang = document.documentElement.lang || 'uk';
+
                 lines.push('');
-                lines.push('"Metadata field";"Metadata value"');
+
+                if (lang === 'uk') {
+                    lines.push('"Поле метаданих";"Значення метаданих"');
+                } else {
+                    lines.push('"Metadata field";"Metadata value"');
+                }
+
                 lines = lines.concat(metadataRows);
             }
 

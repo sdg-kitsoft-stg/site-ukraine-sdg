@@ -345,7 +345,8 @@ body.contrast-high [href]:focus {
 .dropdown button {
   border-radius: 0; }
 .dropdown .dropdown-menu {
-  border-radius: 0; }
+  border-radius: 0;
+  min-width: 100%; }
 
 .navbar {
   padding-top: 32px; }
@@ -579,13 +580,16 @@ body.contrast-high #disclaimer .disclaimer-alert {
     flex-wrap: nowrap; }
   #search input {
     width: 33ch;
-    border: 1.25px solid #0b0c0c; }
+    height: 42px;
+    border: 1.25px solid #0b0c0c;
+    border-radius: 0; }
     #search input:focus {
       background-color: white !important;
       box-shadow: 0 0 0 5px #ffdd00 !important;
       outline: 2px solid #0b0c0c !important; }
   #search button {
     color: white;
+    height: 42px;
     background-color: #00703c;
     border: 1.25px solid #00703c;
     border-radius: 0; }

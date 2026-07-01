@@ -4440,7 +4440,7 @@ function getMetadataCsvRows(selector) {
         if (key || value) {
             const str = `${formatExcelCsvValue(key, false)}: ${formatExcelCsvValue(value, false)}`;
 
-            rows.push();
+            rows.push(str);
         }
     });
 
@@ -5116,7 +5116,7 @@ function getMetadataCsvRows(selector) {
         if ($.trim(key) || $.trim(value)) {
             const str = `${formatExcelCsvValue(key)}: ${formatExcelCsvValue(value)}`;
 
-            rows.push();
+            rows.push(str);
         }
     });
 

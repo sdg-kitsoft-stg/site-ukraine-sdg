@@ -4401,15 +4401,21 @@ function alterTableConfig(config, info) {
  * @param {Object} tableData
  * @return {String}
  */
-function formatCsvValue(value) {
-    if (value === null || typeof value === 'undefined') {
+function formatCsvValue(value, isValueColumn) {
+    if (
+        isValueColumn &&
+        (value === null || typeof value === 'undefined' || String(value).trim() === '')
+    ) {
         return '"NA"';
+    }
+
+    if (value === null || typeof value === 'undefined') {
+        return '""';
     }
 
     var str = String(value).trim();
     var lang = document.documentElement.lang || 'uk';
 
-    // Decimal localization
     if (/^-?\d+\.\d+$/.test(str)) {
         if (lang === 'uk') {
             str = str.replace('.', ',');
@@ -4433,8 +4439,8 @@ function getMetadataCsvRows(selector) {
 
         if (key || value) {
             rows.push([
-                formatCsvValue(key),
-                formatCsvValue(value)
+                formatCsvValue(key, false),
+                formatCsvValue(value, false)
             ].join(';'));
         }
     });
@@ -4446,10 +4452,10 @@ function toCsv(tableData, selectedSeries, selectedUnit) {
     var delimiter = ';';
     var lines = [];
     var lang = document.documentElement.lang || 'uk';
+    var valueColumnIndex = -1;
 
     var dataHeadings = _.map(tableData.headings, function (heading, index) {
         var translatedHeading = translations.t(heading);
-        var lang = document.documentElement.lang || 'uk';
 
         if (
             !translatedHeading ||
@@ -4461,17 +4467,26 @@ function toCsv(tableData, selectedSeries, selectedUnit) {
                 : 'Value';
         }
 
-        return formatCsvValue(translatedHeading);
+        var normalizedHeading = String(translatedHeading || heading).trim();
+
+        if (
+            normalizedHeading === 'Value' ||
+            normalizedHeading === 'Значення'
+        ) {
+            valueColumnIndex = index;
+        }
+
+        return formatCsvValue(translatedHeading, false);
     });
 
     var metaHeadings = [];
 
     if (selectedSeries) {
-        metaHeadings.push(formatCsvValue(translations.indicator.series));
+        metaHeadings.push(formatCsvValue(translations.indicator.series, false));
     }
 
     if (selectedUnit) {
-        metaHeadings.push(formatCsvValue(translations.indicator.unit));
+        metaHeadings.push(formatCsvValue(translations.indicator.unit, false));
     }
 
     lines.push(dataHeadings.concat(metaHeadings).join(delimiter));
@@ -4480,15 +4495,15 @@ function toCsv(tableData, selectedSeries, selectedUnit) {
         var line = [];
 
         _.each(tableData.headings, function (heading, index) {
-            line.push(formatCsvValue(dataValues[index]));
+            line.push(formatCsvValue(dataValues[index], index === valueColumnIndex));
         });
 
         if (selectedSeries) {
-            line.push(formatCsvValue(translations.t(selectedSeries)));
+            line.push(formatCsvValue(translations.t(selectedSeries), false));
         }
 
         if (selectedUnit) {
-            line.push(formatCsvValue(translations.t(selectedUnit)));
+            line.push(formatCsvValue(translations.t(selectedUnit), false));
         }
 
         lines.push(line.join(delimiter));
@@ -4500,9 +4515,9 @@ function toCsv(tableData, selectedSeries, selectedUnit) {
         lines.push('');
 
         if (lang === 'uk') {
-            lines.push('"Поле метаданих","Значення метаданих"');
+            lines.push(formatCsvValue('Поле метаданих Значення метаданих', false));
         } else {
-            lines.push('"Metadata field","Metadata value"');
+            lines.push(formatCsvValue('Metadata field Metadata value', false));
         }
 
         lines = lines.concat(metadataRows);
@@ -5035,18 +5050,26 @@ function translateCsvHeading(value, index) {
     return translations && translations.t ? translations.t(str) : str;
 }
 
-function formatExcelCsvValue(value) {
-    if (value === null || typeof value === 'undefined') {
+function formatExcelCsvValue(value, columnIndex, valueColumnIndex) {
+    var lang = getLang();
+
+    if (
+        columnIndex === valueColumnIndex &&
+        (value === null ||
+            typeof value === 'undefined' ||
+            String(value).trim() === '')
+    ) {
         return '"NA"';
     }
 
-    var str = String(value).trim();
-    var lang = document.documentElement.lang || 'uk';
+    if (value === null || typeof value === 'undefined') {
+        return '""';
+    }
 
-    if (/^-?\d+\.\d+$/.test(str)) {
-        if (lang === 'uk') {
-            str = str.replace('.', ',');
-        }
+    var str = String(value).trim();
+
+    if (/^-?\d+\.\d+$/.test(str) && lang === 'uk') {
+        str = str.replace('.', ',');
     }
 
     return '"' + str.replace(/"/g, '""') + '"';
@@ -5079,26 +5102,6 @@ function parseCsvLine(line) {
     return result;
 }
 
-function convertSourceCsvForExcel(sourceCsv) {
-    return sourceCsv
-        .trim()
-        .split(/\r?\n/)
-        .map(function (line, rowIndex) {
-            return parseCsvLine(line)
-                .map(function (value, colIndex) {
-                    if (rowIndex === 0) {
-                        return formatExcelCsvValue(
-                            translateCsvHeading(value, colIndex)
-                        );
-                    }
-
-                    return formatExcelCsvValue(value);
-                })
-                .join(';');
-        })
-        .join('\n');
-}
-
 function getMetadataCsvRows(selector) {
     var rows = [];
     var $table = $(selector);
@@ -5122,6 +5125,46 @@ function getMetadataCsvRows(selector) {
     return rows;
 }
 
+function convertSourceCsvForExcel(sourceCsv) {
+    var valueColumnIndex = -1;
+
+    return sourceCsv
+        .trim()
+        .split(/\r?\n/)
+        .map(function (line, rowIndex) {
+            var columns = parseCsvLine(line);
+
+            if (rowIndex === 0) {
+                // Знаходимо колонку Value
+                valueColumnIndex = columns.findIndex(function (value, index) {
+                    return translateCsvHeading(value, index) === 'Value' ||
+                        translateCsvHeading(value, index) === 'Значення';
+                });
+
+                return columns
+                    .map(function (value, colIndex) {
+                        return formatExcelCsvValue(
+                            translateCsvHeading(value, colIndex),
+                            colIndex,
+                            valueColumnIndex
+                        );
+                    })
+                    .join(';');
+            }
+
+            return columns
+                .map(function (value, colIndex) {
+                    return formatExcelCsvValue(
+                        value,
+                        colIndex,
+                        valueColumnIndex
+                    );
+                })
+                .join(';');
+        })
+        .join('\n');
+}
+
 function downloadCsvWithMetadata(indicatorId) {
     var sourceUrl = opensdg.remoteDataBaseUrl + '/data/' + indicatorId + '.csv';
 
@@ -5137,10 +5180,12 @@ function downloadCsvWithMetadata(indicatorId) {
                 var lang = getLang();
 
                 lines.push('');
-                lines.push([
-                    formatExcelCsvValue(lang === 'uk' ? 'Поле метаданих' : 'Metadata field'),
-                    formatExcelCsvValue(lang === 'uk' ? 'Значення метаданих' : 'Metadata value')
-                ].join(','));
+
+                if (lang === 'uk') {
+                    lines.push(formatCsvValue('Поле метаданих Значення метаданих', false));
+                } else {
+                    lines.push(formatCsvValue('Metadata field Metadata value', false));
+                }
 
                 lines = lines.concat(metadataRows);
             }

@@ -4403,7 +4403,7 @@ function alterTableConfig(config, info) {
  */
 function formatCsvValue(value) {
     if (value === null || typeof value === 'undefined') {
-        return '""';
+        return '"NA"';
     }
 
     var str = String(value).trim();
@@ -4500,9 +4500,9 @@ function toCsv(tableData, selectedSeries, selectedUnit) {
         lines.push('');
 
         if (lang === 'uk') {
-            lines.push('"Поле метаданих";"Значення метаданих"');
+            lines.push('"Поле метаданих","Значення метаданих"');
         } else {
-            lines.push('"Metadata field";"Metadata value"');
+            lines.push('"Metadata field","Metadata value"');
         }
 
         lines = lines.concat(metadataRows);
@@ -5037,7 +5037,7 @@ function translateCsvHeading(value, index) {
 
 function formatExcelCsvValue(value) {
     if (value === null || typeof value === 'undefined') {
-        return '""';
+        return '"NA"';
     }
 
     var str = String(value).trim();
@@ -5140,7 +5140,7 @@ function downloadCsvWithMetadata(indicatorId) {
                 lines.push([
                     formatExcelCsvValue(lang === 'uk' ? 'Поле метаданих' : 'Metadata field'),
                     formatExcelCsvValue(lang === 'uk' ? 'Значення метаданих' : 'Metadata value')
-                ].join(';'));
+                ].join(','));
 
                 lines = lines.concat(metadataRows);
             }

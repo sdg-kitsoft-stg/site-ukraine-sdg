@@ -4403,14 +4403,11 @@ function alterTableConfig(config, info) {
  */
 function formatCsvValue(value, isValueColumn) {
     if (
-        isValueColumn &&
-        (value === null || typeof value === 'undefined' || String(value).trim() === '')
+        value === null ||
+        typeof value === 'undefined' ||
+        String(value).trim() === ''
     ) {
         return '"NA"';
-    }
-
-    if (value === null || typeof value === 'undefined') {
-        return '""';
     }
 
     var str = String(value).trim();
@@ -4465,9 +4462,17 @@ function toCsv(tableData, selectedSeries, selectedUnit) {
             translatedHeading === '' ||
             translatedHeading === 'undefined'
         ) {
-            translatedHeading = lang === 'uk'
-                ? 'Значення'
-                : 'Value';
+            if (
+                heading &&
+                heading !== '' &&
+                heading !== 'undefined'
+            ) {
+                translatedHeading = heading;
+            } else {
+                translatedHeading = lang === 'uk'
+                    ? 'Значення'
+                    : 'Value';
+            }
         }
 
         var normalizedHeading = String(translatedHeading || heading).trim();
@@ -5044,35 +5049,26 @@ function translateCsvHeading(value, index) {
         return lang === 'uk' ? 'Рік' : 'Year';
     }
 
-    if (
-        index > 0 &&
-        (
-            !str ||
-            str === 'Value' ||
-            str === 'Значення' ||
-            str === 'undefined'
-        )
-    ) {
+    if (index > 0) {
+        if (str && str !== 'undefined') {
+            return translations && translations.t ? translations.t(str) : str;
+        }
+
         return lang === 'uk' ? 'Значення' : 'Value';
     }
 
     return translations && translations.t ? translations.t(str) : str;
 }
 
-function formatExcelCsvValue(value, columnIndex, valueColumnIndex) {
+function formatExcelCsvValue(value) {
     var lang = getLang();
 
     if (
-        columnIndex === valueColumnIndex &&
-        (value === null ||
-            typeof value === 'undefined' ||
-            String(value).trim() === '')
+        value === null ||
+        typeof value === 'undefined' ||
+        String(value).trim() === ''
     ) {
         return '"NA"';
-    }
-
-    if (value === null || typeof value === 'undefined') {
-        return '""';
     }
 
     var str = String(value).trim();

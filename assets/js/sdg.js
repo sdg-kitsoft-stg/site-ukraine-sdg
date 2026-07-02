@@ -4401,7 +4401,11 @@ function alterTableConfig(config, info) {
  * @param {Object} tableData
  * @return {String}
  */
-function formatCsvValue(value, isValueColumn) {
+function formatCsvValue(value, isEmptyColumn = false) {
+    if (isEmptyColumn) {
+        return '""';
+    }
+
     if (
         value === null ||
         typeof value === 'undefined' ||
@@ -4440,7 +4444,7 @@ function getMetadataCsvRows(selector, columnCount) {
             cells[columnCount - 1] = key + ': ' + value;
 
             rows.push(cells.map(function (cell) {
-                return formatCsvValue(cell, false);
+                return formatCsvValue(cell);
             }).join(';'));
         }
     });
@@ -4484,17 +4488,17 @@ function toCsv(tableData, selectedSeries, selectedUnit) {
             valueColumnIndex = index;
         }
 
-        return formatCsvValue(translatedHeading, false);
+        return formatCsvValue(translatedHeading);
     });
 
     var metaHeadings = [];
 
     if (selectedSeries) {
-        metaHeadings.push(formatCsvValue(translations.indicator.series, false));
+        metaHeadings.push(formatCsvValue(translations.indicator.series));
     }
 
     if (selectedUnit) {
-        metaHeadings.push(formatCsvValue(translations.indicator.unit, false));
+        metaHeadings.push(formatCsvValue(translations.indicator.unit));
     }
 
     var noteHeading = lang === 'uk' ? 'Національні метадані' : 'National Metadata';
@@ -4503,7 +4507,7 @@ function toCsv(tableData, selectedSeries, selectedUnit) {
     lines.push(
         dataHeadings
             .concat(metaHeadings)
-            .concat([formatCsvValue(noteHeading, false)])
+            .concat([formatCsvValue(noteHeading)])
             .join(delimiter)
     );
 
@@ -4511,18 +4515,18 @@ function toCsv(tableData, selectedSeries, selectedUnit) {
         var line = [];
 
         _.each(tableData.headings, function (heading, index) {
-            line.push(formatCsvValue(dataValues[index], index === valueColumnIndex));
+            line.push(formatCsvValue(dataValues[index]));
         });
 
         if (selectedSeries) {
-            line.push(formatCsvValue(translations.t(selectedSeries), false));
+            line.push(formatCsvValue(translations.t(selectedSeries)));
         }
 
         if (selectedUnit) {
-            line.push(formatCsvValue(translations.t(selectedUnit), false));
+            line.push(formatCsvValue(translations.t(selectedUnit)));
         }
 
-        line.push(formatCsvValue('', false));
+        line.push(formatCsvValue(''));
 
         lines.push(line.join(delimiter));
     });
@@ -5060,8 +5064,12 @@ function translateCsvHeading(value, index) {
     return translations && translations.t ? translations.t(str) : str;
 }
 
-function formatExcelCsvValue(value) {
+function formatExcelCsvValue(value, isEmptyColumn) {
     var lang = getLang();
+
+    if (isEmptyColumn) {
+        return '""';
+    }
 
     if (
         value === null ||
@@ -5125,7 +5133,7 @@ function getMetadataCsvRows(selector, columnCount) {
             cells[columnCount - 1] = key + ': ' + value;
 
             rows.push(cells.map(function (cell, colIndex) {
-                return formatExcelCsvValue(cell, colIndex, -1);
+                return formatExcelCsvValue(cell, true);
             }).join(';'));
         }
     });

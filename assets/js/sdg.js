@@ -4401,8 +4401,13 @@ function alterTableConfig(config, info) {
  * @param {Object} tableData
  * @return {String}
  */
-function formatCsvValue(value, isEmptyColumn = false) {
-    if (isEmptyColumn) {
+function formatCsvValue(value, isValueColumn, allowEmpty) {
+    if (
+        allowEmpty &&
+        (value === null ||
+            typeof value === 'undefined' ||
+            String(value).trim() === '')
+    ) {
         return '""';
     }
 
@@ -4417,10 +4422,8 @@ function formatCsvValue(value, isEmptyColumn = false) {
     var str = String(value).trim();
     var lang = document.documentElement.lang || 'uk';
 
-    if (/^-?\d+\.\d+$/.test(str)) {
-        if (lang === 'uk') {
-            str = str.replace('.', ',');
-        }
+    if (/^-?\d+\.\d+$/.test(str) && lang === 'uk') {
+        str = str.replace('.', ',');
     }
 
     return '"' + str.replace(/"/g, '""') + '"';
@@ -4443,8 +4446,12 @@ function getMetadataCsvRows(selector, columnCount) {
 
             cells[columnCount - 1] = key + ': ' + value;
 
-            rows.push(cells.map(function (cell) {
-                return formatCsvValue(cell);
+            rows.push(cells.map(function (cell, index) {
+                return formatCsvValue(
+                    cell,
+                    false,
+                    index !== columnCount - 1
+                );
             }).join(';'));
         }
     });
@@ -4488,17 +4495,17 @@ function toCsv(tableData, selectedSeries, selectedUnit) {
             valueColumnIndex = index;
         }
 
-        return formatCsvValue(translatedHeading);
+        return formatCsvValue(translatedHeading, false);
     });
 
     var metaHeadings = [];
 
     if (selectedSeries) {
-        metaHeadings.push(formatCsvValue(translations.indicator.series));
+        metaHeadings.push(formatCsvValue(translations.indicator.series, false));
     }
 
     if (selectedUnit) {
-        metaHeadings.push(formatCsvValue(translations.indicator.unit));
+        metaHeadings.push(formatCsvValue(translations.indicator.unit, false));
     }
 
     var noteHeading = lang === 'uk' ? 'Національні метадані' : 'National Metadata';
@@ -4507,7 +4514,7 @@ function toCsv(tableData, selectedSeries, selectedUnit) {
     lines.push(
         dataHeadings
             .concat(metaHeadings)
-            .concat([formatCsvValue(noteHeading)])
+            .concat([formatCsvValue(noteHeading, false)])
             .join(delimiter)
     );
 
@@ -4515,18 +4522,18 @@ function toCsv(tableData, selectedSeries, selectedUnit) {
         var line = [];
 
         _.each(tableData.headings, function (heading, index) {
-            line.push(formatCsvValue(dataValues[index]));
+            line.push(formatCsvValue(dataValues[index], index === valueColumnIndex));
         });
 
         if (selectedSeries) {
-            line.push(formatCsvValue(translations.t(selectedSeries)));
+            line.push(formatCsvValue(translations.t(selectedSeries), false));
         }
 
         if (selectedUnit) {
-            line.push(formatCsvValue(translations.t(selectedUnit)));
+            line.push(formatCsvValue(translations.t(selectedUnit), false));
         }
 
-        line.push(formatCsvValue(''));
+        line.push(formatCsvValue('', false, true));
 
         lines.push(line.join(delimiter));
     });
@@ -5064,10 +5071,17 @@ function translateCsvHeading(value, index) {
     return translations && translations.t ? translations.t(str) : str;
 }
 
-function formatExcelCsvValue(value, isEmptyColumn) {
+function formatExcelCsvValue(value, allowEmpty) {
     var lang = getLang();
 
-    if (isEmptyColumn) {
+    if (
+        allowEmpty &&
+        (
+            value === null ||
+            typeof value === 'undefined' ||
+            String(value).trim() === ''
+        )
+    ) {
         return '""';
     }
 
@@ -5118,6 +5132,7 @@ function parseCsvLine(line) {
 function getMetadataCsvRows(selector, columnCount) {
     var rows = [];
     var $table = $(selector);
+    var noteColumnIndex = columnCount - 1;
 
     if (!$table.length) {
         return rows;
@@ -5132,9 +5147,14 @@ function getMetadataCsvRows(selector, columnCount) {
 
             cells[columnCount - 1] = key + ': ' + value;
 
-            rows.push(cells.map(function (cell, colIndex) {
-                return formatExcelCsvValue(cell, true);
-            }).join(';'));
+            rows.push(
+                cells.map(function (cell, colIndex) {
+                    return formatExcelCsvValue(
+                        cell,
+                        colIndex !== noteColumnIndex
+                    );
+                }).join(';')
+            );
         }
     });
 
@@ -5173,12 +5193,13 @@ function convertSourceCsvForExcel(sourceCsv) {
 
             columns.push('');
 
+            var noteColumnIndex = columns.length - 1;
+
             return columns
                 .map(function (value, colIndex) {
                     return formatExcelCsvValue(
                         value,
-                        colIndex,
-                        valueColumnIndex
+                        colIndex === noteColumnIndex
                     );
                 })
                 .join(';');

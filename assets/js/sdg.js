@@ -4469,9 +4469,13 @@ function toCsv(tableData, selectedSeries, selectedUnit) {
         var renderedHeadings = [];
 
         $renderedTable.find('thead th').each(function () {
-            renderedHeadings.push(
-                formatCsvValue($(this).clone().children().remove().end().text().trim(), false)
-            );
+            var headingText = $(this).find('span[role="button"]').first().text().trim();
+
+            if (!headingText) {
+                headingText = $(this).text().replace(/\s+/g, ' ').trim();
+            }
+
+            renderedHeadings.push(formatCsvValue(headingText, false));
         });
 
         var metaHeadings = [];
@@ -5151,7 +5155,13 @@ function convertSourceCsvForExcel(sourceCsv) {
         var headings = [];
 
         $renderedTable.find('thead th').each(function () {
-            headings.push($(this).clone().children().remove().end().text().trim());
+            var headingText = $(this).find('span[role="button"]').first().text().trim();
+
+            if (!headingText) {
+                headingText = $(this).text().replace(/\s+/g, ' ').trim();
+            }
+
+            headings.push(headingText);
         });
 
         headings.push(noteHeading);

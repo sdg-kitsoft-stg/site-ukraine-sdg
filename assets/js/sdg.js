@@ -4824,19 +4824,19 @@ function setDataTableWidth(table) {
 function updateChartDownloadButton(table, selectedSeries, selectedUnit) {
     if (typeof VIEW._chartDownloadButton !== 'undefined') {
         var tableCsv = toCsv(table, selectedSeries, selectedUnit);
-        var blob = new Blob([tableCsv], {
-            type: 'text/csv'
-        });
         var fileName = VIEW._chartDownloadButton.attr('download');
         if (window.navigator && window.navigator.msSaveBlob) {
             // Special behavior for IE.
+            var blob = new Blob([tableCsv], {
+                type: 'text/csv'
+            });
             VIEW._chartDownloadButton.off('click.openSdgDownload')
             VIEW._chartDownloadButton.on('click.openSdgDownload', function (event) {
                 window.navigator.msSaveBlob(blob, fileName);
             });
         } else {
             VIEW._chartDownloadButton
-                .attr('href', URL.createObjectURL(blob))
+                .attr('href', csvToDataUri(tableCsv))
                 .data('csvdata', tableCsv);
         }
     }
@@ -4973,6 +4973,14 @@ function isHighContrast(contrast) {
 }
 
 /**
+ * @param {String} csv
+ * @return {String}
+ */
+function csvToDataUri(csv) {
+    return 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
+}
+
+/**
  * @param {Object} table
  * @param {String} name
  * @param {String} indicatorId
@@ -5001,18 +5009,18 @@ function createDownloadButton(table, name, indicatorId, el, selectedSeries, sele
                 'tabindex': 0,
                 'role': 'button',
             });
-        var blob = new Blob([tableCsv], {
-            type: 'text/csv'
-        });
         if (window.navigator && window.navigator.msSaveBlob) {
             // Special behavior for IE.
+            var blob = new Blob([tableCsv], {
+                type: 'text/csv'
+            });
             downloadButton.on('click.openSdgDownload', function (event) {
                 window.navigator.msSaveBlob(blob, fileName);
             });
         }
         else {
             downloadButton
-                .attr('href', URL.createObjectURL(blob))
+                .attr('href', csvToDataUri(tableCsv))
                 .data('csvdata', tableCsv);
         }
         if (name == 'Chart') {
@@ -5389,6 +5397,12 @@ function createIndicatorDownloadButtons(indicatorDownloads, indicatorId, el) {
 
         VIEW._precision = args.precision;
 
+        // Build the selections table before the chart, so that the chart's
+        // download-CSV button (built in setPlotEvents) can read real data
+        // from #selectionsTable on the very first render instead of an
+        // empty table.
+        helpers.createSelectionsTable(args);
+
         if (MODEL.showData) {
             // $('#dataset-size-warning')[args.datasetCountExceedsMax ? 'show' : 'hide']();
             if (!VIEW._chartInstance) {
@@ -5399,7 +5413,6 @@ function createIndicatorDownloadButtons(indicatorDownloads, indicatorId, el) {
             }
         }
 
-        helpers.createSelectionsTable(args);
         helpers.updateChartTitle(args.chartTitle, args.isProxy);
         helpers.updateSeriesAndUnitElements(args.selectedSeries, args.selectedUnit);
         helpers.updateUnitElements(args.selectedUnit);
